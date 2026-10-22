@@ -86,15 +86,31 @@ deploy` only applies committed migrations; it never generates, prompts, or drops
 
 ## Seeding the catalogue
 
-The database starts empty, so Discover and the wardrobe will be bare. One command fills it:
+The database starts empty, so Discover and the wardrobe will be bare. From the deployed
+service's shell (Render: the **Shell** tab; Railway: `railway run`):
 
 ```bash
-# Railway
-railway run npm --prefix backend run seed
-
-# Render — Shell tab on the service
-npm run seed
+npm run seed:catalogue
 ```
+
+That loads the 736-piece starter catalogue. It upserts on SKU, so it is safe to run again
+after a redeploy or a catalogue change — pieces are updated in place, never duplicated.
+
+Locally, where dev dependencies are installed, it needs a build first:
+
+```bash
+cd backend && npm run build && npm run seed:catalogue
+```
+
+> **`npm run seed` does not work on a deployed service.** It runs `prisma/seed.ts` through
+> `tsx`, which is a dev dependency and is stripped by `npm ci --omit=dev`, and it imports from
+> `src/`, which the runtime image doesn't ship. It is the local-development seeder: it also
+> creates the two demo accounts (`demo@forya.com`, `james@forya.com`). Those passwords are in
+> version control, so seed them on a deployed service only after changing them.
+
+Don't paste a seeding script into the web shell by hand. A `£` typed through a browser
+terminal arrives mis-encoded, which is how the live catalogue once ended up showing
+`GBP295` instead of `£295`. The command above builds the prices in code.
 
 To pull live retailer data instead, use the operator route with your `ADMIN_TOKEN`:
 
@@ -176,10 +192,12 @@ Run against the built production server:
 1. **The AI budget counters are in-process.** Correct for one instance. If you scale to
    several replicas, either divide `AI_DAILY_CALLS` by the replica count or move the
    counters in `backend/src/lib/aiBudget.ts` to Redis.
-2. **`User.country` defaults to `"Pakistan"` and `countryCode` to `"PK"`**
-   (`backend/prisma/schema.prisma`). For a London launch that is almost certainly wrong, and
-   it will quietly mislabel every account that doesn't set it. Changing it is a one-line
-   schema edit plus a migration — say the word.
+2. **Accounts created before 22 Oct 2026 may be filed in the wrong country.** The default was
+   `Pakistan`/`PK` and the registration form never sent a country code, so early rows can read
+   `Pakistan`, or a correct country name against a `GB` code. Both are fixed going forward
+   (migration `20261022170000_default_country_uk`, and `backend/src/lib/countries.ts`), but
+   existing rows were left untouched on purpose — a row saying `Pakistan` might be a member who
+   chose it. The migration carries the one-off `UPDATE` if you want them rewritten.
 3. **Calendar sync is a placeholder.** `POST /api/sync` inserts two sample moments; Google
    and Outlook OAuth are not wired up. Fine for launch, but it is not what the marketing
    implies, so either build it or soften the copy.

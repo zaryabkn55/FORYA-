@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '../db/config';
 import { AuthRequest, requireAuth, signToken } from '../middlewares/auth';
 import { toUser } from '../lib/mappers';
+import { DEFAULT_COUNTRY, codeForCountry } from '../lib/countries';
 
 const router = Router();
 
@@ -11,8 +12,13 @@ const RegisterSchema = z.object({
   fullName: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
-  country: z.string().optional().default('United Kingdom'),
-  countryCode: z.string().optional().default('GB'),
+  country: z.string().optional().default(DEFAULT_COUNTRY),
+  // Left undefined rather than defaulted, so we can tell "the client didn't send one" from
+  // "the client sent GB" and derive it from the country name in the first case.
+  countryCode: z
+    .string()
+    .regex(/^[A-Za-z]{2}$/, 'Country code must be two letters')
+    .optional(),
   phone: z.string().optional(),
   shopsFor: z.enum(['women', 'men']).optional(),
 });
@@ -53,7 +59,9 @@ router.post('/register', async (req: Request, res: Response) => {
         email: normalizedEmail,
         passwordHash,
         country,
-        countryCode,
+        // The form sends a name, not a code; derive it so a Dublin or Paris member isn't
+        // filed as GB.
+        countryCode: countryCode ? countryCode.toUpperCase() : codeForCountry(country),
         phone,
         shopsFor,
       },
@@ -157,7 +165,16 @@ router.patch('/me', requireAuth, async (req: AuthRequest, res: Response) => {
   const parsed = ProfileSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: parsed.error.issues[0]?.message });
   const { name, country, shopsFor } = parsed.data;
-  const user = await prisma.user.update({ where: { id: req.user!.id }, data: { ...(name ? { fullName: name } : {}), ...(country ? { country } : {}), ...(shopsFor ? { shopsFor } : {}) } });
+  const user = await prisma.user.update({
+    where: { id: req.user!.id },
+    data: {
+      ...(name ? { fullName: name } : {}),
+      // Country and code move together: updating one and not the other leaves the account
+      // saying "France" with a GB code.
+      ...(country ? { country, countryCode: codeForCountry(country) } : {}),
+      ...(shopsFor ? { shopsFor } : {}),
+    },
+  });
   res.json(toUser(user));
 });
 

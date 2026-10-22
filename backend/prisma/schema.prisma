@@ -46,8 +46,8 @@ model User {
   fullName     String
   email        String         @unique
   passwordHash String
-  country      String         @default("Pakistan")
-  countryCode  String         @default("PK")
+  country      String         @default("United Kingdom")
+  countryCode  String         @default("GB")
   phone        String?
   shopsFor     String?        // "women" or "men": the department this account sees
   createdAt    DateTime       @default(now())
