@@ -1,0 +1,65 @@
+# FORYA on Render — Infrastructure as code.
+#
+# In the Render dashboard: New → Blueprint → point it at this repository. Render reads this
+# file, creates the database and the web service, wires DATABASE_URL between them and
+# generates the secrets marked `generateValue: true`.
+#
+# The two values you must paste in yourself are marked `sync: false`: Render will prompt for
+# them on the first deploy. ALLOWED_ORIGINS has to be set to the service's own URL once
+# Render has told you what it is (first deploy, then set it and redeploy).
+
+databases:
+  - name: forya-db
+    databaseName: foryadb
+    user: forya
+    plan: basic-256mb # upgrade to a paid tier before launch: free databases expire after 30 days
+    postgresMajorVersion: "16"
+    ipAllowList: [] # only reachable from inside Render's network
+
+services:
+  - type: web
+    name: forya
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter
+    region: frankfurt # closest to a London audience; oregon/ohio/singapore also available
+    healthCheckPath: /health/ready
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "4000"
+
+      # Supplied automatically from the database above.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: forya-db
+          property: connectionString
+
+      # Render generates a long random value and keeps it secret.
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_TOKEN
+        generateValue: true
+
+      # One proxy hop (Render's load balancer) sits in front of the app.
+      - key: TRUST_PROXY_HOPS
+        value: "1"
+
+      # Set this to the service's public URL after the first deploy, e.g.
+      # https://forya.onrender.com — the app refuses to start in production without it.
+      - key: ALLOWED_ORIGINS
+        sync: false
+
+      # Paste your Anthropic key to enable the live stylist. Leave blank and the app uses
+      # its on-device stylist instead — everything still works.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+
+      # Spend ceilings for the stylist. See backend/src/lib/aiBudget.ts.
+      - key: AI_USER_HOURLY_CALLS
+        value: "40"
+      - key: AI_DAILY_CALLS
+        value: "2000"

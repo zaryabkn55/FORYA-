@@ -1,0 +1,207 @@
+/**
+ * Menswear for every brand on the list that sells it.
+ *
+ * Womenswear-only labels (Cider, & Other Stories, Topshop, Maje, Varley, Joseph, Miu Miu, Zimmermann,
+ * LoveShackFancy, Alaia) are left out, so a menswear account never sees them. Prices and photos are
+ * ILLUSTRATIVE, like the rest of the demo catalogue. Some shots are shared between brands.
+ */
+import { img, type ImageKey } from './imagery';
+import type { Category, Product, Tier, WeatherBand } from './types';
+
+type W = WeatherBand[];
+const WARM: W = ['warm'];
+const WM: W = ['warm', 'mild'];
+const MILD: W = ['mild'];
+const MC: W = ['mild', 'cold'];
+const COLD: W = ['cold'];
+const ALL: W = ['warm', 'mild', 'cold'];
+
+const STORES = new Set(['Farfetch', 'Flannels', 'Harrods', 'Selfridges', 'Mytheresa']);
+const slug = (s: string) => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+type Row = [brand: string, key: ImageKey, name: string, category: Category, price: number, colour: string, material: string, weather: W, extra?: { rain?: boolean; isNew?: boolean; description?: string }];
+
+const DESCRIPTIONS: Partial<Record<ImageKey, string>> = {
+  mOvercoat: 'Single-breasted overcoat that sits just above the knee.',
+  mSuitTrousers: 'Tapered suit trousers with a flat front.',
+  mNavyChinos: 'Slim chinos in soft stretch cotton.',
+  mStraightJeans: 'Straight-leg jeans in a mid-blue wash.',
+  mCampShirt: 'Short-sleeve shirt with a relaxed camp collar.',
+  mSwimShorts: 'Tailored swim shorts with side adjusters.',
+  mChinoShorts: 'Above-the-knee shorts in cotton twill.',
+  mEspadrilles: 'Canvas espadrilles on a jute sole.',
+  mLinenDrawstring: 'Relaxed linen trousers with a drawstring waist.',
+  mHoodedParka: 'Hooded down parka built for proper cold.',
+  mLinenBlazer: 'Unstructured blazer with patch pockets. Wears like a shirt.',
+  mGreySuit: 'Two-button suit jacket with a soft shoulder.',
+  mMessenger: 'Structured leather messenger with an adjustable strap.',
+  mBackpack: 'Minimal leather backpack with a padded laptop sleeve.',
+  mSunglasses: 'Classic acetate frames with UV400 lenses.',
+  mSweatshirt: 'Relaxed crew-neck sweatshirt in loopback cotton.',
+  mHoodie: 'Heavyweight hoodie with a lined hood.',
+  mSuedeBomber: 'Bomber in soft suede with ribbed trims.',
+  mPrintShirt: 'Short-sleeve shirt in a fluid printed silk.',
+  mMac: 'Single-breasted mac with a water-repellent finish.',
+  mOvershirt: 'Wool overshirt that layers over a tee or knit.',
+  mDinnerTrousers: 'Black dinner trousers with a satin side stripe.',
+  oxfordShirt: 'Button-down shirt in soft oxford cotton.',
+  piquePolo: 'Piqué polo with tipped collar and cuffs.',
+  navyBomber: 'Lightweight bomber with ribbed trims.',
+  drivingShoes: 'Unlined suede drivers on a pebble sole.',
+  suedeChelsea: 'Suede Chelsea boots with elastic gussets.',
+  chelseaBoots: 'Polished leather Chelsea boots.',
+  rollneck: 'Fine-gauge roll-neck that sits neatly under tailoring.',
+  sageTee: 'Boxy washed tee in heavyweight cotton.',
+  denimJacket: 'Classic trucker jacket in rigid denim.',
+  tuxedoBlazer: 'Single-button dinner jacket with satin peak lapels.',
+  velvetBlazer: 'Velvet jacket with satin lapels for evenings.',
+  blackPuffer: 'Quilted down jacket with a stand collar.',
+  cashmereScarf: 'Soft cashmere scarf with fringed ends.',
+  linenShirt: 'Relaxed shirt in breathable linen.',
+  navyBlazer: 'Single-breasted wool blazer with a soft shoulder.',
+  merinoCrew: 'Fine merino crew-neck that layers easily.',
+  cashmereCrew: 'Crew-neck in soft cashmere with ribbed trims.',
+  blackTee: 'Soft crew-neck tee with a relaxed fit.',
+  derbyShoes: 'Leather derby shoes on a slim sole.',
+  cableKnit: 'Cable crew-neck in a chunky knit.',
+  fleeceZip: 'Half-zip fleece in cosy borg.',
+  navyGilet: 'Quilted gilet with a stand collar.',
+  stripeLinenShirt: 'Striped linen shirt with a button-down collar.',
+  lightDown: 'Packable lightweight down jacket.',
+  leatherTrainers: 'Minimal low-top trainers in smooth leather.',
+  chunkySneakers: 'Leather sneakers on a chunky sole.',
+  suedeLoafers: 'Unlined suede loafers on a flexible sole.',
+  quiltedJacket: 'Diamond-quilted jacket with a corduroy collar.',
+  lugLoafers: 'Penny loafers on a lug sole.',
+  holdall: 'Leather weekend holdall with a shoulder strap.',
+  leatherBelt: 'Leather belt with a brushed buckle.',
+  bikerJacket: 'Asymmetric biker jacket with silver-tone zips.',
+  darkJeans: 'Slim jeans in a clean dark rinse.',
+  glossyDown: 'Glossy down puffer with a stand collar.',
+};
+
+const ROWS: Row[] = [
+  // Affordable
+  ['Zara', 'mLinenDrawstring', 'Linen Drawstring Trousers', 'Bottoms', 39.99, 'Beige', '100% linen', WM, { isNew: true }],
+  ['Zara', 'mCampShirt', 'Textured Camp Collar Shirt', 'Tops', 29.99, 'Ecru', 'Textured cotton', WARM],
+  ['H&M', 'mSweatshirt', 'Relaxed Fit Sweatshirt', 'Knitwear', 19.99, 'Grey marl', 'Cotton blend', MC],
+  ['H&M', 'mChinoShorts', 'Regular Fit Chino Shorts', 'Bottoms', 17.99, 'Beige', 'Cotton twill', WARM],
+  ['Mango', 'mSuitTrousers', 'Slim-fit Wool-blend Suit Trousers', 'Tailoring', 69.99, 'Charcoal', 'Wool blend', MC],
+  ['Mango', 'oxfordShirt', 'Slim-fit Oxford Cotton Shirt', 'Tops', 29.99, 'Light blue', '100% cotton oxford', ALL],
+  ['ASOS', 'mHoodie', 'ASOS DESIGN Oversized Hoodie', 'Knitwear', 28, 'Black', 'Cotton blend jersey', MC],
+  ['ASOS', 'mSwimShorts', 'ASOS DESIGN Tailored Swim Shorts', 'Bottoms', 20, 'Navy', 'Recycled polyester', WARM],
+  ['Uniqlo', 'lightDown', "Men's Ultra Light Down Jacket", 'Outerwear', 59.9, 'Navy', 'Down fill, nylon shell', MC, { rain: true }],
+  ['Uniqlo', 'merinoCrew', "Men's Extra Fine Merino Crew Neck Jumper", 'Knitwear', 34.9, 'Grey', '100% merino wool', MC],
+  ['Pretty Little Thing', 'blackTee', 'PLT Man Oversized T-shirt', 'Tops', 12, 'Black', '100% cotton', WM],
+  ['Pretty Little Thing', 'mStraightJeans', 'PLT Man Straight Leg Jeans', 'Bottoms', 30, 'Mid blue', 'Cotton denim', MC],
+  ['Urban Outfitters', 'denimJacket', 'BDG Denim Trucker Jacket', 'Outerwear', 65, 'Mid wash', '100% cotton denim', MILD],
+  ['Urban Outfitters', 'sageTee', 'UO Washed Boxy T-shirt', 'Tops', 22, 'Sage', 'Heavyweight cotton', WM],
+  ['River Island', 'bikerJacket', 'Faux Leather Biker Jacket', 'Outerwear', 70, 'Black', 'Faux leather', MC],
+  ['River Island', 'mNavyChinos', 'Slim Fit Chino Trousers', 'Bottoms', 32, 'Navy', 'Stretch cotton', WM],
+  ['Next', 'mOvercoat', 'Signature Wool Blend Overcoat', 'Outerwear', 140, 'Charcoal', 'Wool blend', MC, { isNew: true }],
+  ['Next', 'derbyShoes', 'Leather Derby Shoes', 'Shoes', 60, 'Black', 'Leather', ALL],
+  ['New Look', 'fleeceZip', "Men's Borg Half-zip Fleece", 'Knitwear', 27.99, 'Ecru', 'Polyester borg fleece', MC],
+  ['New Look', 'mEspadrilles', "Men's Canvas Espadrilles", 'Shoes', 17.99, 'Navy', 'Cotton canvas, jute sole', WARM],
+  ['M&S', 'mMac', 'Single-breasted Mac with Stormwear', 'Outerwear', 89, 'Stone', 'Cotton blend, water-repellent', MILD, { rain: true }],
+  ['M&S', 'cableKnit', 'Pure Cotton Cable Crew Jumper', 'Knitwear', 35, 'Ecru', '100% cotton', MC],
+
+  // Attainable
+  ['COS', 'mOvershirt', 'Wool Overshirt', 'Outerwear', 115, 'Grey', 'Wool blend', MC],
+  ['COS', 'linenShirt', 'Relaxed Linen Shirt', 'Tops', 65, 'White', '100% linen', WM],
+  ['Massimo Dutti', 'mSuedeBomber', 'Suede Bomber Jacket', 'Outerwear', 299, 'Tan', 'Goat suede', MILD, { isNew: true }],
+  ['Massimo Dutti', 'drivingShoes', 'Suede Driving Moccasins', 'Shoes', 89.95, 'Sand', 'Suede', WM],
+  ['Reiss', 'mGreySuit', 'Modern-fit Wool Suit Jacket', 'Tailoring', 345, 'Soft grey', '100% wool', MC],
+  ['Reiss', 'mSuitTrousers', 'Slim-fit Wool Trousers', 'Tailoring', 145, 'Charcoal', '100% wool', MC],
+  ['7 For All Mankind', 'darkJeans', 'Slimmy Tapered Jeans', 'Bottoms', 220, 'Dark rinse', 'Stretch denim', MC],
+  ['7 For All Mankind', 'mStraightJeans', 'Standard Straight Jeans', 'Bottoms', 210, 'Mid wash', 'Cotton denim', MC],
+  ['AllSaints', 'bikerJacket', 'Leather Biker Jacket', 'Outerwear', 399, 'Black', 'Lambskin leather', MC],
+  ['AllSaints', 'blackTee', 'Slub Cotton Crew T-shirt', 'Tops', 39, 'Black', 'Slub cotton', WM],
+  ['Sandro', 'velvetBlazer', 'Velvet Suit Jacket', 'Tailoring', 445, 'Black', 'Cotton velvet', MC],
+  ['Sandro', 'oxfordShirt', 'Cotton Oxford Shirt', 'Tops', 135, 'Sky blue', 'Cotton oxford', ALL],
+  ['Theory', 'mNavyChinos', 'Slim Chinos in Stretch Cotton', 'Bottoms', 165, 'Navy', 'Stretch cotton', WM],
+  ['Theory', 'navyBlazer', 'Unstructured Wool Blazer', 'Tailoring', 495, 'Navy', 'Wool', MC],
+  ['Zadig & Voltaire', 'mHoodie', 'Organic Cotton Hoodie', 'Knitwear', 195, 'Black', 'Organic cotton', MC],
+  ['Zadig & Voltaire', 'chelseaBoots', 'Leather Chelsea Boots', 'Shoes', 345, 'Dark brown', 'Calf leather', MC, { rain: true }],
+  ['Holland Cooper', 'quiltedJacket', "Men's Quilted Field Jacket", 'Outerwear', 299, 'Olive', 'Quilted nylon, cord collar', MC, { rain: true }],
+  ['Holland Cooper', 'navyGilet', "Men's Quilted Gilet", 'Outerwear', 199, 'Navy', 'Quilted nylon, synthetic fill', MC],
+  ['Boss', 'mOvercoat', 'Wool-cashmere Overcoat', 'Outerwear', 599, 'Charcoal', 'Wool and cashmere', MC],
+  ['Boss', 'piquePolo', 'Slim-fit Piqué Polo Shirt', 'Tops', 89, 'White', 'Cotton piqué', WM],
+  ['Club Monaco', 'mLinenBlazer', 'Unstructured Linen Blazer', 'Tailoring', 299, 'Beige', '100% linen', WM],
+  ['Club Monaco', 'stripeLinenShirt', 'Striped Linen Shirt', 'Tops', 119, 'Blue stripe', '100% linen', WM],
+  ['Maniere De Voir', 'mSweatshirt', "Men's Oversized Sweatshirt", 'Knitwear', 65, 'Grey marl', 'Heavyweight cotton', MC],
+  ['Maniere De Voir', 'sageTee', "Men's Boxy T-shirt", 'Tops', 40, 'Sage', 'Heavyweight cotton', WM],
+
+  // Aspirational
+  ['Fendi', 'mBackpack', 'Leather Backpack', 'Bags', 1950, 'Black', 'Calf leather', ALL],
+  ['Fendi', 'mPrintShirt', 'Printed Silk Shirt', 'Tops', 890, 'Navy print', '100% silk', WM],
+  ['Dolce&Gabbana', 'tuxedoBlazer', 'Satin-lapel Tuxedo Jacket', 'Tailoring', 1950, 'Black', 'Wool and silk', MC],
+  ['Dolce&Gabbana', 'mDinnerTrousers', 'Tuxedo Trousers', 'Tailoring', 795, 'Black', 'Wool, satin stripe', MC],
+  ['Dior', 'mMessenger', 'Leather Messenger Bag', 'Bags', 2400, 'Dark brown', 'Grained calf leather', ALL],
+  ['Dior', 'rollneck', 'Cashmere Roll-neck Jumper', 'Knitwear', 1100, 'Chocolate', '100% cashmere', MC],
+  ['Salvatore Ferragamo', 'drivingShoes', 'Suede Driving Loafers', 'Shoes', 595, 'Sand', 'Suede', WM],
+  ['Salvatore Ferragamo', 'leatherBelt', 'Reversible Leather Belt', 'Accessories', 450, 'Brown', 'Calf leather', ALL],
+  ['Gucci', 'lugLoafers', 'Leather Loafers', 'Shoes', 790, 'Black', 'Calf leather', ALL],
+  ['Gucci', 'mSunglasses', 'Acetate Sunglasses', 'Accessories', 340, 'Tortoiseshell', 'Acetate', WARM],
+  ['Farfetch', 'mCampShirt', 'Camp-collar Cotton Shirt', 'Tops', 210, 'Ecru', 'Cotton', WARM],
+  ['Farfetch', 'chunkySneakers', 'Leather Platform Sneakers', 'Shoes', 390, 'White', 'Calf leather', ALL],
+  ['Flannels', 'mHoodedParka', 'Hooded Down Parka', 'Outerwear', 650, 'Olive', 'Down fill, technical shell', COLD, { rain: true }],
+  ['Flannels', 'blackPuffer', 'Quilted Down Jacket', 'Outerwear', 495, 'Black', 'Down fill, nylon shell', MC, { rain: true }],
+  ['Harrods', 'cashmereScarf', 'Cashmere Scarf', 'Accessories', 295, 'Camel', '100% cashmere', MC],
+  ['Harrods', 'holdall', 'Leather Weekend Holdall', 'Bags', 895, 'Tan', 'Full-grain leather', ALL],
+  ['Selfridges', 'mSwimShorts', 'Tailored Swim Shorts', 'Bottoms', 165, 'Navy', 'Recycled polyester', WARM],
+  ['Selfridges', 'mEspadrilles', 'Canvas Espadrilles', 'Shoes', 120, 'Navy', 'Cotton canvas, jute sole', WARM],
+  ['Mytheresa', 'cashmereCrew', 'Cashmere Crew-neck Sweater', 'Knitwear', 595, 'Camel', '100% cashmere', MC],
+  ['Mytheresa', 'mLinenDrawstring', 'Linen Drawstring Trousers', 'Bottoms', 320, 'Beige', '100% linen', WM],
+  ['Canada Goose', 'mHoodedParka', 'Arctic Down Parka', 'Outerwear', 1295, 'Olive', 'Down fill, technical shell', COLD, { rain: true }],
+  ['Canada Goose', 'glossyDown', 'Lightweight Down Puffer', 'Outerwear', 695, 'Black', 'Down fill, nylon shell', MC, { rain: true }],
+  ['Moncler', 'blackPuffer', 'Down Jacket', 'Outerwear', 1350, 'Black', 'Down fill, nylon laqué', MC, { rain: true }],
+  ['Moncler', 'navyGilet', 'Down Gilet', 'Outerwear', 790, 'Navy', 'Down fill, nylon shell', MC],
+  ['Loro Piana', 'suedeLoafers', 'Suede Walk Loafers', 'Shoes', 895, 'Chocolate', 'Suede', WM],
+  ['Loro Piana', 'merinoCrew', 'Baby Cashmere Crew-neck', 'Knitwear', 1250, 'Grey', '100% baby cashmere', MC],
+  ['Louis Vuitton', 'holdall', 'Leather Travel Holdall', 'Bags', 2650, 'Tan', 'Full-grain leather', ALL],
+  ['Louis Vuitton', 'mPrintShirt', 'Silk Short-sleeve Shirt', 'Tops', 1050, 'Navy print', '100% silk', WARM],
+  ['Prada', 'mMac', 'Gabardine Raincoat', 'Outerwear', 2100, 'Stone', 'Cotton gabardine, water-repellent', MILD, { rain: true }],
+  ['Prada', 'derbyShoes', 'Brushed Leather Derby Shoes', 'Shoes', 850, 'Black', 'Brushed leather', ALL],
+  ['Bottega Veneta', 'mMessenger', 'Woven Leather Messenger Bag', 'Bags', 2900, 'Brown', 'Woven calf leather', ALL],
+  ['Bottega Veneta', 'suedeChelsea', 'Suede Chelsea Boots', 'Shoes', 1150, 'Black', 'Suede', MC],
+  ['Burberry', 'mMac', 'Cotton Gabardine Car Coat', 'Outerwear', 1890, 'Stone', 'Cotton gabardine, water-repellent', MILD, { rain: true }],
+  ['Burberry', 'cashmereScarf', 'Cashmere Scarf', 'Accessories', 490, 'Camel', '100% cashmere', MC],
+  ['Saint Laurent', 'bikerJacket', 'Leather Motorcycle Jacket', 'Outerwear', 4900, 'Black', 'Lambskin leather', MC],
+  ['Saint Laurent', 'darkJeans', 'Slim-fit Jeans', 'Bottoms', 490, 'Dark rinse', 'Stretch denim', MC],
+  ['Brunello Cucinelli', 'mLinenBlazer', 'Linen-wool Unstructured Blazer', 'Tailoring', 3200, 'Beige', 'Linen and wool', WM],
+  ['Brunello Cucinelli', 'mChinoShorts', 'Cotton Bermuda Shorts', 'Bottoms', 690, 'Beige', 'Cotton gabardine', WARM],
+  ['Celine', 'mStraightJeans', 'Straight Jeans', 'Bottoms', 690, 'Mid wash', 'Cotton denim', MC],
+  ['Celine', 'mSuedeBomber', 'Suede Bomber Jacket', 'Outerwear', 3900, 'Tan', 'Lamb suede', MILD],
+  ['Alexander McQueen', 'chunkySneakers', 'Oversized Leather Sneakers', 'Shoes', 450, 'White', 'Calf leather', ALL],
+  ['Alexander McQueen', 'mGreySuit', 'Tailored Wool Jacket', 'Tailoring', 1690, 'Grey', '100% wool', MC],
+  ['Valentino Garavani', 'leatherTrainers', 'Leather Low-top Sneakers', 'Shoes', 650, 'White', 'Calf leather', ALL],
+  ['Valentino Garavani', 'mBackpack', 'Leather Backpack', 'Bags', 1890, 'Black', 'Calf leather', ALL],
+  ['Maison Margiela', 'leatherTrainers', 'Leather Low-top Trainers', 'Shoes', 450, 'White', 'Calf leather', ALL],
+  ['Maison Margiela', 'mOvershirt', 'Wool Overshirt', 'Outerwear', 990, 'Grey', 'Virgin wool', MC],
+  ['Jacquemus', 'mCampShirt', 'Linen-blend Camp Shirt', 'Tops', 390, 'Ecru', 'Linen blend', WARM],
+  ['Jacquemus', 'mChinoShorts', 'Bermuda Shorts', 'Bottoms', 350, 'Beige', 'Cotton twill', WARM],
+];
+
+export function menswear(tierOf: (brand: string) => Tier): Product[] {
+  return ROWS.map(([brand, key, name, category, price, colorName, material, weather, extra]) => {
+    const b = slug(brand);
+    return {
+      id: `pm-${b}-${slug(key)}`,
+      sku: `M-${brand.replace(/[^A-Za-z0-9]/g, '').slice(0, 4).toUpperCase()}-${key.replace(/^m/, '').slice(0, 6).toUpperCase()}-${colorName.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase()}`,
+      brand,
+      name,
+      category,
+      tier: tierOf(brand),
+      price,
+      colorName,
+      material,
+      description: extra?.description ?? DESCRIPTIONS[key] ?? '',
+      imageUrl: img(key),
+      weather,
+      rainReady: extra?.rain,
+      isNew: extra?.isNew,
+      store: STORES.has(brand) || undefined,
+      gender: 'men' as const,
+    };
+  });
+}

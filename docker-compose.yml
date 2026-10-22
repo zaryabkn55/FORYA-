@@ -1,0 +1,68 @@
+# FORYA — production stack, runnable anywhere Docker runs.
+#
+# This is the deployment Railway and Render reproduce for you; it is also what you'd run on
+# a VPS behind Caddy or nginx. One app container serves the API and the web app together,
+# with Postgres beside it.
+#
+#   cp .env.example .env     # then fill in JWT_SECRET, ALLOWED_ORIGINS, POSTGRES_PASSWORD
+#   docker compose up -d --build
+#
+# For day-to-day development use docker-compose.dev.yml instead — it has hot reload.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-forya}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-foryadb}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # Deliberately not published to the host: nothing outside this network needs it.
+    # Add `ports: ["127.0.0.1:5432:5432"]` temporarily if you need psql from the host.
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-forya} -d ${POSTGRES_DB:-foryadb}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks: [forya-net]
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-forya}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-foryadb}?schema=public
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env — openssl rand -base64 48}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:?set ALLOWED_ORIGINS in .env}
+      # 0 when the container is reached directly; 1 behind Caddy/nginx/a cloud load balancer.
+      TRUST_PROXY_HOPS: ${TRUST_PROXY_HOPS:-0}
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      AI_USER_HOURLY_CALLS: ${AI_USER_HOURLY_CALLS:-40}
+      AI_DAILY_CALLS: ${AI_DAILY_CALLS:-2000}
+    ports:
+      - '${WEB_PORT:-8080}:4000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://127.0.0.1:4000/health/ready || exit 1']
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    networks: [forya-net]
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  forya-net:
+    driver: bridge

@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+**/dist-*
+**/.env
+**/.env.*
+!**/.env.example
+.git
+.github
+*.md
+!README.md
+**/.DS_Store
+frontend/public/images/**/*.mp4

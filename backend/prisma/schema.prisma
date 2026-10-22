@@ -1,0 +1,179 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// =========================================================================
+// ENUMS
+// =========================================================================
+
+enum Tier {
+  AFFORDABLE
+  ATTAINABLE
+  ASPIRATIONAL
+}
+
+enum Occasion {
+  FORMAL
+  WORK
+  DINNER
+  PARTY
+  HOLIDAY
+  CASUAL
+}
+
+enum LookStatus {
+  DRAFT
+  IN_PROGRESS
+  READY
+}
+
+enum MomentSource {
+  CALENDAR
+  USER
+}
+
+// =========================================================================
+// MODELS
+// =========================================================================
+
+model User {
+  id           String         @id @default(uuid())
+  fullName     String
+  email        String         @unique
+  passwordHash String
+  country      String         @default("Pakistan")
+  countryCode  String         @default("PK")
+  phone        String?
+  shopsFor     String?        // "women" or "men": the department this account sees
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  // Relationships
+  moments      Moment[]
+  sharedLooks  SharedLook[]
+  wardrobe     WardrobeItem[]
+
+  @@index([email])
+}
+
+model Product {
+  id           String         @id @default(uuid())
+  sku          String         @unique
+  name         String
+  brand        String
+  tier         Tier           @default(AFFORDABLE)
+  category     String
+  price        String
+  numericPrice Float
+  imageUrl     String
+  color        String
+  colorName    String?
+  material     String?
+  description  String?
+  isNew        Boolean        @default(false)
+  weather      String[]       @default([]) // warm / mild / cold bands the piece suits; empty = any
+  rainReady    Boolean        @default(false)
+  isStore      Boolean        @default(false) // sold by a multi-brand store (Farfetch, Flannels)
+  gender       String         @default("women") // women / men / unisex
+  sourceUrl    String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  // Relationships
+  canvasPieces CanvasPiece[]
+  wardrobe     WardrobeItem[]
+
+  @@index([brand])
+  @@index([category])
+  @@index([tier])
+}
+
+model WardrobeItem {
+  id        String   @id @default(uuid())
+  userId    String
+  productId String
+  owned     Boolean  @default(true) // true = owned, false = saved (wishlist)
+  timesWorn Int      @default(0)
+  createdAt DateTime @default(now())
+
+  // Relationships
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([userId])
+}
+
+model Moment {
+  id          String       @id @default(uuid())
+  userId      String?
+  title       String
+  subtitle    String?
+  occasion    Occasion     @default(CASUAL)
+  date        DateTime
+  source      MomentSource @default(USER)
+  venue       String?
+  notes       String?
+  weatherTemp Int?
+  weatherDesc String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relationships
+  user        User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  look        Look?
+
+  @@index([userId])
+  @@index([date])
+}
+
+model Look {
+  id        String        @id @default(uuid())
+  momentId  String        @unique
+  status    LookStatus    @default(DRAFT)
+  total     Float         @default(0.0)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  // Relationships
+  moment    Moment        @relation(fields: [momentId], references: [id], onDelete: Cascade)
+  pieces    CanvasPiece[]
+}
+
+model CanvasPiece {
+  id        String   @id @default(uuid())
+  lookId    String
+  productId String
+  x         Float    @default(50.0) // centre, % of canvas width
+  y         Float    @default(50.0) // centre, % of canvas height
+  w         Float    @default(26.0) // width, % of canvas width
+  z         Int      @default(0)    // stacking order
+  createdAt DateTime @default(now())
+
+  // Relationships
+  look      Look     @relation(fields: [lookId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([lookId])
+  @@index([productId])
+}
+// A look shared by link. The snapshot is frozen at share time so later edits don't change what friends saw.
+model SharedLook {
+  id        String   @id // short public id used in /look/s/:id
+  userId    String
+  momentId  String
+  snapshot  Json     // { title, occasion, date, by, weather, pieces[] }
+  wear      Int      @default(0)
+  obsessed  Int      @default(0)
+  swap      Int      @default(0)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, momentId])
+}

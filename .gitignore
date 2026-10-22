@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-*/
+*.tsbuildinfo
+
+# secrets — never commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# local database / logs
+pgdata/
+*.log
+
+# editor / os
+.DS_Store
+.idea/
+.vscode/
