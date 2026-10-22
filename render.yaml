@@ -12,6 +12,7 @@ databases:
   - name: forya-db
     databaseName: foryadb
     user: forya
+    region: frankfurt
     plan: basic-256mb # upgrade to a paid tier before launch: free databases expire after 30 days
     postgresMajorVersion: "16"
     ipAllowList: [] # only reachable from inside Render's network
