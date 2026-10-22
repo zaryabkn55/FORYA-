@@ -15,6 +15,7 @@ import wardrobeRoutes from './routes/wardrobe';
 import syncRoutes from './routes/sync';
 import sharedRoutes from './routes/shared';
 import aiRoutes from './routes/ai';
+import weatherRoutes from './routes/weather';
 import { databaseReady } from './db/config';
 import { env } from './env';
 
@@ -118,6 +119,7 @@ app.use('/api/brands', brandRoutes);
 app.use('/api/sync', syncRoutes);
 app.use('/api/shared', sharedRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/weather', weatherRoutes);
 
 /* ── Health ───────────────────────────────────────────────────────────────────
    `database` is what the web app reads to decide between live data and demo mode, so

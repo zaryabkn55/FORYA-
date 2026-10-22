@@ -3,15 +3,15 @@ import { api } from '../lib/api';
 import { OCCASIONS, type Moment, type Occasion, type Weather } from '../lib/types';
 import { Icon } from './Icon';
 import { Modal } from './Overlay';
-import { describeCode } from '../lib/weather';
 
-interface GeoCity {
-  id: number;
+interface GeoPlace {
   name: string;
+  label: string;
   admin1?: string;
-  country: string;
+  country?: string;
   latitude: number;
   longitude: number;
+  kind: 'postcode' | 'city' | 'place';
 }
 
 const GUESSES: Weather[] = [
@@ -44,7 +44,7 @@ export function AddMomentDialog({
   const [date, setDate] = useState(toLocalInput(initialDate ?? tomorrow));
   const [venue, setVenue] = useState('');
   const [notes, setNotes] = useState('');
-  const [suggestions, setSuggestions] = useState<GeoCity[]>([]);
+  const [suggestions, setSuggestions] = useState<GeoPlace[]>([]);
   const [weather, setWeather] = useState<Weather | undefined>();
   const [loadingWeather, setLoadingWeather] = useState(false);
   const [error, setError] = useState('');
@@ -53,7 +53,8 @@ export function AddMomentDialog({
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
   const [forecastFor, setForecastFor] = useState<'day' | 'season' | 'now' | 'guess'>('now');
 
-  // City autocomplete (Open-Meteo geocoding, no key needed).
+  // Place autocomplete. Served from our own origin so the content-security-policy stays tight,
+  // and so a postcode works: the server tries postcodes.io, then cities, then named venues.
   useEffect(() => {
     if (picked || venue.trim().length < 2) {
       setSuggestions([]);
@@ -61,7 +62,7 @@ export function AddMomentDialog({
     }
     const t = setTimeout(async () => {
       try {
-        const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(venue.trim())}&count=5&language=en&format=json`);
+        const res = await fetch(`/api/weather/search?q=${encodeURIComponent(venue.trim())}`);
         const data = await res.json();
         setSuggestions(data.results ?? []);
       } catch {
@@ -71,73 +72,65 @@ export function AddMomentDialog({
     return () => clearTimeout(t);
   }, [venue, picked]);
 
-  const pickCity = (c: GeoCity) => {
+  const pickCity = (c: GeoPlace) => {
     setPicked(true);
-    setVenue([c.name, c.admin1, c.country].filter(Boolean).join(', '));
+    setVenue(c.label || [c.name, c.admin1, c.country].filter(Boolean).join(', '));
     setSuggestions([]);
     setCoords({ lat: c.latitude, lon: c.longitude });
   };
 
-  // The forecast for the day when it's within range (16 days). Further out, the typical weather for that
-  // time of year (the same week last year), so a July trip booked in October is dressed for July.
+  /**
+   * The forecast, from our own API.
+   *
+   * Two things changed here. The lookup runs on whatever is typed, not only on a suggestion
+   * the user clicked — so "SW1A 1AA" or "Babington House, Somerset" resolves on its own, which
+   * is what people actually do. And the request is same-origin, so the server can reach a
+   * postcode geocoder that Open-Meteo doesn't cover, and the page's content-security-policy
+   * doesn't have to allow arbitrary third-party hosts.
+   *
+   * The server picks the horizon: the day's forecast inside 16 days, the typical weather for
+   * that week of the year further out, otherwise what it's like there now.
+   */
   useEffect(() => {
-    if (!coords) return;
+    const place = venue.trim();
+    if (!coords && place.length < 2) {
+      setWeather(undefined);
+      setForecastFor('now');
+      return;
+    }
+
     let live = true;
     const day = date.slice(0, 10);
-    const ahead = (new Date(day).getTime() - new Date(new Date().toISOString().slice(0, 10)).getTime()) / 86_400_000;
-    const mode: 'day' | 'season' | 'now' = ahead >= 0 && ahead <= 15 ? 'day' : ahead > 15 ? 'season' : 'now';
-    const at = `latitude=${coords.lat}&longitude=${coords.lon}&timezone=auto`;
-    const shift = (d: string, years: number, days = 0) => {
-      const x = new Date(`${d}T12:00:00Z`);
-      x.setUTCFullYear(x.getUTCFullYear() - years);
-      x.setUTCDate(x.getUTCDate() + days);
-      return x.toISOString().slice(0, 10);
-    };
-    const yearsBack = Math.max(1, Math.ceil(ahead / 365));
-    const url =
-      mode === 'day'
-        ? `https://api.open-meteo.com/v1/forecast?${at}&daily=temperature_2m_max,apparent_temperature_max,weather_code,precipitation_probability_max,wind_speed_10m_max&start_date=${day}&end_date=${day}`
-        : mode === 'season'
-          ? `https://archive-api.open-meteo.com/v1/archive?${at}&daily=temperature_2m_max,weather_code,precipitation_sum&start_date=${shift(day, yearsBack, -3)}&end_date=${shift(day, yearsBack, 3)}`
-          : `https://api.open-meteo.com/v1/forecast?${at}&current=temperature_2m,weather_code`;
-    setLoadingWeather(true);
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        if (!live) return;
-        if (mode === 'season') {
-          const temps: number[] = (data.daily?.temperature_2m_max ?? []).filter((n: unknown) => typeof n === 'number');
-          const rain: number[] = data.daily?.precipitation_sum ?? [];
-          const codes: number[] = data.daily?.weather_code ?? [];
-          if (!temps.length) throw new Error('no data');
-          const avg = temps.reduce((a, b) => a + b, 0) / temps.length;
-          const wetDays = rain.filter((r) => r >= 1).length;
-          const typical = codes.slice().sort((a, b) => codes.filter((c) => c === b).length - codes.filter((c) => c === a).length)[0] ?? 0;
-          setWeather({ temperature: Math.round(avg), condition: wetDays >= 4 ? 'Showers' : describeCode(typical), rainChance: Math.round((wetDays / Math.max(1, rain.length)) * 100) });
-        } else {
-          const d = data.daily;
-          const t = mode === 'day' ? d?.temperature_2m_max?.[0] : data.current?.temperature_2m;
-          const code = mode === 'day' ? d?.weather_code?.[0] : data.current?.weather_code;
-          setWeather(
-            typeof t === 'number'
-              ? {
-                  temperature: Math.round(t),
-                  condition: describeCode(code ?? 0),
-                  ...(mode === 'day' && typeof d?.apparent_temperature_max?.[0] === 'number' ? { feelsLike: Math.round(d.apparent_temperature_max[0]) } : {}),
-                  ...(mode === 'day' && typeof d?.precipitation_probability_max?.[0] === 'number' ? { rainChance: d.precipitation_probability_max[0] } : {}),
-                  ...(mode === 'day' && typeof d?.wind_speed_10m_max?.[0] === 'number' ? { windKph: Math.round(d.wind_speed_10m_max[0]) } : {}),
-                }
-              : undefined,
-          );
-        }
-        setForecastFor(mode);
-      })
-      .catch(() => live && setWeather(undefined))
-      .finally(() => live && setLoadingWeather(false));
+    const query = coords
+      ? `lat=${coords.lat}&lon=${coords.lon}&date=${day}`
+      : `place=${encodeURIComponent(place)}&date=${day}`;
+
+    // Debounce the typed case so we aren't asking on every keystroke; a picked place is exact,
+    // so that one fires straight away.
+    const delay = coords ? 0 : 500;
+    const timer = setTimeout(() => {
+      setLoadingWeather(true);
+      fetch(`/api/weather?${query}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (!live) return;
+          setWeather(data?.weather ?? undefined);
+          setForecastFor(data?.weather ? (data.mode ?? 'now') : 'guess');
+        })
+        .catch(() => {
+          if (live) {
+            setWeather(undefined);
+            setForecastFor('guess');
+          }
+        })
+        .finally(() => live && setLoadingWeather(false));
+    }, delay);
+
     return () => {
       live = false;
+      clearTimeout(timer);
     };
-  }, [coords, date]);
+  }, [coords, venue, date]);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -214,8 +207,8 @@ export function AddMomentDialog({
           {suggestions.length > 0 && (
             <div className="menu" style={{ left: 0, right: 0, top: '100%' }}>
               {suggestions.map((c) => (
-                <button type="button" className="menu-item" key={c.id} onClick={() => pickCity(c)}>
-                  <Icon name="pin" size={16} />
+                <button type="button" className="menu-item" key={`${c.kind}:${c.latitude},${c.longitude}`} onClick={() => pickCity(c)}>
+                  <Icon name={c.kind === 'postcode' ? 'search' : 'pin'} size={16} />
                   <span>
                     {c.name}
                     <span className="small">{[c.admin1, c.country].filter(Boolean).map((s) => ` · ${s}`)}</span>
