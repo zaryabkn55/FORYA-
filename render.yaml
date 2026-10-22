@@ -30,8 +30,6 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: "4000"
 
       # Supplied automatically from the database above.
       - key: DATABASE_URL
