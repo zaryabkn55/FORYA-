@@ -75,7 +75,14 @@ app.use(
 /* ── Body limits ──────────────────────────────────────────────────────────────
    The largest legitimate body is a look with its canvas pieces; 256 kB is ample and
    stops someone posting a 50 MB JSON document at an unauthenticated route. */
-app.use(express.json({ limit: '256kb' }));
+/* A photographed wardrobe piece arrives as a base64 PNG, which is far larger than any other
+   request the app makes. It gets its own parser rather than raising the ceiling everywhere:
+   256 kB stays the limit for every unauthenticated route. The size is checked again after
+   decoding, in routes/wardrobe.ts, against the real byte length. */
+const CAPTURE_PATH = '/api/wardrobe/capture';
+const captureJson = express.json({ limit: '6mb' });
+const standardJson = express.json({ limit: '256kb' });
+app.use((req, res, next) => (req.path === CAPTURE_PATH ? captureJson(req, res, next) : standardJson(req, res, next)));
 
 /* ── Rate limits ──────────────────────────────────────────────────────────────
    Three tiers. The broad one protects the service; the auth one makes credential

@@ -8,6 +8,7 @@ const router = Router();
 router.get('/', async (_req: Request, res: Response) => {
   try {
     const products = await prisma.product.findMany({
+      where: { ownerId: null }, // the shared catalogue only — never members' own pieces
       orderBy: { createdAt: 'desc' },
     });
 

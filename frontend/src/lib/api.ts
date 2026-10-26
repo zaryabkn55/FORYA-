@@ -96,6 +96,24 @@ export const api = {
 
   wardrobe: () => route<WardrobeEntry[]>(() => http('/api/wardrobe'), () => demo.wardrobe()),
 
+  /** The member's own photographed pieces. Absent from the public catalogue, so fetched apart. */
+  myPieces: () => route<Product[]>(() => http('/api/wardrobe/pieces'), async () => []),
+
+  /** Add a photographed piece. `image` is base64 PNG with no data: prefix. */
+  capturePiece: (input: { name: string; category: string; colorName?: string; image: string; backgroundRemoved: boolean }) =>
+    route<{ product: Product; wardrobe: WardrobeEntry[] }>(
+      () => http('/api/wardrobe/capture', { method: 'POST', body: json(input) }),
+      async () => {
+        throw new Error('Photographing pieces needs the FORYA app.');
+      },
+    ),
+
+  deletePiece: (productId: string) =>
+    route<WardrobeEntry[]>(
+      () => http(`/api/wardrobe/items/${encodeURIComponent(productId)}`, { method: 'DELETE' }),
+      async () => [],
+    ),
+
   setWardrobe: (productId: string, kind: WardrobeKind | null) =>
     route<WardrobeEntry[]>(
       () => http(`/api/wardrobe/${encodeURIComponent(productId)}`, { method: 'PUT', body: json({ kind }) }),

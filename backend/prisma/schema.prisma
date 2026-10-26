@@ -57,6 +57,7 @@ model User {
   moments      Moment[]
   sharedLooks  SharedLook[]
   wardrobe     WardrobeItem[]
+  ownPieces    Product[]
 
   @@index([email])
 }
@@ -81,16 +82,39 @@ model Product {
   isStore      Boolean        @default(false) // sold by a multi-brand store (Farfetch, Flannels)
   gender       String         @default("women") // women / men / unisex
   sourceUrl    String?
+
+  // Set when this is a member's own photographed piece rather than a catalogue entry. Owner-made
+  // pieces behave like any other product — they can go in looks, on the canvas and in the
+  // wardrobe — but they are excluded from Discover and from everyone else's searches.
+  ownerId      String?
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 
   // Relationships
+  owner        User?          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  image        ProductImage?
   canvasPieces CanvasPiece[]
   wardrobe     WardrobeItem[]
 
   @@index([brand])
   @@index([category])
   @@index([tier])
+  @@index([ownerId])
+}
+
+/// The cut-out photo behind an owner-made piece. Kept in its own table so that listing products
+/// never drags image bytes along: Prisma selects columns, and a Bytes field on Product would be
+/// fetched on every catalogue query.
+model ProductImage {
+  id          String   @id @default(uuid())
+  productId   String   @unique
+  bytes       Bytes
+  contentType String   @default("image/png")
+  width       Int
+  height      Int
+  createdAt   DateTime @default(now())
+
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model WardrobeItem {

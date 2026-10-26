@@ -7,6 +7,7 @@ import { api, apiMode, ApiMode } from './api';
 import { forDepartment } from './catalogue';
 import { useSession } from './session';
 import type { Product, ShopsFor, WardrobeEntry, WardrobeKind } from './types';
+import { resolvePieceImages } from './privateImage';
 
 const DEPT_KEY = 'forya.department';
 const readDept = (): ShopsFor => {
@@ -71,6 +72,26 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       return;
     }
     api.wardrobe().then(setWardrobe).catch(() => setWardrobe([]));
+
+    // A member's own photographed pieces live outside the public catalogue, so they are fetched
+    // separately and merged in. Their images sit behind an authenticated route, so each one is
+    // swapped for an object URL here — that way every existing <img src={p.imageUrl}> keeps
+    // working without knowing anything about this.
+    let live = true;
+    api
+      .myPieces()
+      .then((pieces) => resolvePieceImages(pieces, (resolved) => {
+        if (!live) return;
+        setProducts((all) => {
+          const mine = new Map(resolved.map((p) => [p.id, p]));
+          const rest = all.filter((p) => !mine.has(p.id));
+          return [...resolved, ...rest];
+        });
+      }))
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
   }, [user]);
 
   const toast = useCallback((text: string, wink?: string) => {

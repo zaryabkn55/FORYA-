@@ -13,7 +13,8 @@
     "seed": "tsx prisma/seed.ts",
     "seed:catalogue": "node dist/scripts/seedCatalogue.js",
     "migrate:deploy": "prisma migrate deploy",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:wardrobe": "node tests/wardrobe-capture.test.mjs"
   },
   "dependencies": {
     "@prisma/client": "^5.15.0",

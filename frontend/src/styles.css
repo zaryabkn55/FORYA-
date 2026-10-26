@@ -3299,3 +3299,43 @@ a.offer:hover {
   color: var(--pebble);
   margin-top: 3px;
 }
+
+/* ── Photographing a piece (app only) ──────────────────────────────────────
+   The cut-out arrives with a transparent background, so it is shown on the
+   same paper tone as the catalogue tiles: the piece reads as a product shot
+   rather than as a photo of a bedroom floor. */
+.capture-intro {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--oat, #F0ECE4);
+  color: var(--ink, #2E2D2B);
+}
+.capture-intro p { margin: 0; }
+
+.capture-preview {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  background:
+    radial-gradient(120% 90% at 50% 18%, rgba(255, 255, 255, 0.9), transparent 60%),
+    var(--linen, #F6F5F2);
+  border: 1px solid var(--mist, #E4E0D8);
+  overflow: hidden;
+}
+.capture-preview img {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+  /* A soft contact shadow so a cut-out piece sits on the surface instead of
+     hovering over it. */
+  filter: drop-shadow(0 18px 22px rgba(46, 45, 43, 0.18));
+}
+
+@media (max-width: 520px) {
+  .capture-preview { aspect-ratio: 1 / 1; }
+  .capture-intro { padding: 14px; }
+}

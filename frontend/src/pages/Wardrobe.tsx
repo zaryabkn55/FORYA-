@@ -3,12 +3,14 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Icon } from '../components/Icon';
 import { Modal } from '../components/Overlay';
 import { Photo } from '../components/Photo';
+import { CapturePieceDialog } from '../components/CapturePieceDialog';
 import { ProductCard } from '../components/ProductCard';
 import { api } from '../lib/api';
 import { priceCheckFor } from '../lib/catalogue';
 import { longDate, money } from '../lib/format';
 import { img, type ImageKey } from '../lib/imagery';
 import { useStore } from '../lib/store';
+import { canCapture } from '../lib/subjectLift';
 import type { JournalEntry, Product } from '../lib/types';
 
 type Tab = 'saved' | 'owned' | 'journal';
@@ -16,9 +18,10 @@ type Tab = 'saved' | 'owned' | 'journal';
 export default function Wardrobe() {
   const [params, setParams] = useSearchParams();
   const tab = (params.get('tab') as Tab) || 'saved';
-  const { wardrobe, product } = useStore();
+  const { wardrobe, product, toast } = useStore();
   const [journal, setJournal] = useState<JournalEntry[]>([]);
   const [logging, setLogging] = useState(false);
+  const [capturing, setCapturing] = useState(false);
 
   useEffect(() => {
     api.journal().then(setJournal);
@@ -87,9 +90,18 @@ export default function Wardrobe() {
               <Icon name="camera" size={18} /> Log a fit
             </button>
           ) : (
-            <Link to="/discover" className="btn btn-quiet">
-              <Icon name="plus" size={18} /> Add pieces
-            </Link>
+            <div className="row wrap" style={{ gap: 8 }}>
+              {/* Photographing a piece is an app capability: it needs the camera and the
+                  device's own subject lifting, neither of which the website has. */}
+              {canCapture() && (
+                <button className="btn btn-primary" onClick={() => setCapturing(true)}>
+                  <Icon name="camera" size={18} /> Photograph a piece
+                </button>
+              )}
+              <Link to="/discover" className="btn btn-quiet">
+                <Icon name="plus" size={18} /> Add pieces
+              </Link>
+            </div>
           )}
         </div>
 
@@ -165,6 +177,16 @@ export default function Wardrobe() {
             <Empty title="Your journal's" wink="empty." body="Log what you wore and how it felt. Future you will thank you." />
           ))}
       </div>
+
+      {capturing && (
+        <CapturePieceDialog
+          onClose={() => setCapturing(false)}
+          onAdded={(pieceName) => {
+            toast(`${pieceName} is in your wardrobe.`, 'Nice one.');
+            setParams({ tab: 'owned' });
+          }}
+        />
+      )}
 
       {logging && (
         <LogFit

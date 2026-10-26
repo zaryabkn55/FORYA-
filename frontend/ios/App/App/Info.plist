@@ -66,5 +66,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>FORYA uses the camera so you can photograph pieces you already own and add them to your wardrobe.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>FORYA can add a piece to your wardrobe from a photo you have already taken.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>FORYA can save a wardrobe piece back to your photo library.</string>
 </dict>
 </plist>

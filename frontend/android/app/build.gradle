@@ -40,6 +40,10 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
+
+    // On-device subject segmentation for wardrobe cut-outs. The model ships through Play
+    // services rather than in the APK, so this adds no meaningful size.
+    implementation 'com.google.android.gms:play-services-mlkit-subject-segmentation:16.0.0-beta1'
 }
 
 apply from: 'capacitor.build.gradle'

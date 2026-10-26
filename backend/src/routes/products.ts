@@ -14,7 +14,10 @@ router.get('/', async (req: Request, res: Response) => {
   const { q, tier, category, brand } = req.query;
 
   try {
-    const where: any = {};
+    // ownerId: null keeps members' own photographed pieces out of the public catalogue.
+    // They live in the same table so they work in looks and on the canvas, but Discover,
+    // search and the brand pages are the shared catalogue only.
+    const where: any = { ownerId: null };
 
     if (tier && tier !== 'All') {
       where.tier = String(tier).toUpperCase();
@@ -188,14 +191,14 @@ router.get('/proxy-image', async (req: Request, res: Response) => {
 
 // GET /api/products/:id
 router.get('/:id', async (req: Request, res: Response) => {
-  const p = await prisma.product.findUnique({ where: { id: req.params.id } });
+  const p = await prisma.product.findFirst({ where: { id: req.params.id, ownerId: null } });
   if (!p) return res.status(404).json({ error: 'Product not found.' });
   res.json(toProduct(p));
 });
 
 // GET /api/products/:id/prices — price verdict + offers across retailers and resale
 router.get('/:id/prices', async (req: Request, res: Response) => {
-  const p = await prisma.product.findUnique({ where: { id: req.params.id } });
+  const p = await prisma.product.findFirst({ where: { id: req.params.id, ownerId: null } });
   if (!p) return res.status(404).json({ error: 'Product not found.' });
   const out = toProduct(p);
   res.json(priceCheck({ id: out.id, brand: out.brand, tier: out.tier, price: out.price, sourceUrl: out.sourceUrl }));
