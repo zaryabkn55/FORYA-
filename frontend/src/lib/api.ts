@@ -2,6 +2,7 @@
  * Single entry point for data. Talks to the Express API when it is reachable ("live" mode) and
  * falls back to the in-browser demo store when it is not, so the app is always usable.
  */
+import { apiUrl } from './apiBase';
 import { demo } from './demoStore';
 import { getToken } from './session';
 import { decodeLook, encodeLook, localReact, localReactions, rememberMine, type Reaction, type Reactions, type SharedLook } from './share';
@@ -18,7 +19,7 @@ export function apiMode(): Promise<ApiMode> {
       try {
         const ctrl = new AbortController();
         const t = setTimeout(() => ctrl.abort(), 2500);
-        const res = await fetch('/api/health', { signal: ctrl.signal });
+        const res = await fetch(apiUrl('/api/health'), { signal: ctrl.signal });
         clearTimeout(t);
         const body = await res.json().catch(() => ({}));
         return res.ok && body.database !== 'unavailable' ? 'live' : 'demo';
@@ -32,7 +33,7 @@ export function apiMode(): Promise<ApiMode> {
 
 async function http<T>(url: string, init: RequestInit = {}): Promise<T> {
   const token = getToken();
-  const res = await fetch(url, {
+  const res = await fetch(apiUrl(url), {
     ...init,
     headers: {
       'Content-Type': 'application/json',

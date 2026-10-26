@@ -10,6 +10,7 @@
  */
 import { apiMode } from './api';
 import { getToken } from './session';
+import { apiUrl } from './apiBase';
 
 export type AiSource = 'claude' | 'server' | 'local';
 export type Turn = { role: 'user' | 'assistant'; content: string };
@@ -36,7 +37,7 @@ function serverAi(): Promise<boolean> {
     serverPromise = (async () => {
       if ((await apiMode()) !== 'live') return false;
       try {
-        const r = await fetch('/api/ai/status');
+        const r = await fetch(apiUrl('/api/ai/status'));
         return r.ok && !!(await r.json()).enabled;
       } catch {
         return false;
@@ -85,7 +86,7 @@ export async function askJson<T>(input: string | Turn[], opts: { signal?: AbortS
   }
   if (source === 'server') {
     const token = getToken();
-    const res = await fetch('/api/ai/complete', {
+    const res = await fetch(apiUrl('/api/ai/complete'), {
       method: 'POST',
       signal: opts.signal,
       headers: { 'Content-Type': 'application/json', ...(token && !token.startsWith('demo.') ? { Authorization: `Bearer ${token}` } : {}) },

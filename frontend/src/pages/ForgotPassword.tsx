@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthLayout } from '../components/AuthLayout';
 import { Icon } from '../components/Icon';
+import { apiUrl } from '../lib/apiBase';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ export default function ForgotPassword() {
     e.preventDefault();
     setBusy(true);
     // Fire and forget: the response is the same whether or not the account exists.
-    await fetch('/api/auth/forgot-password', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).catch(() => null);
+    await fetch(apiUrl('/api/auth/forgot-password'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }).catch(() => null);
     setSent(true);
     setBusy(false);
   };

@@ -3,6 +3,7 @@ import { api } from '../lib/api';
 import { OCCASIONS, type Moment, type Occasion, type Weather } from '../lib/types';
 import { Icon } from './Icon';
 import { Modal } from './Overlay';
+import { apiUrl } from '../lib/apiBase';
 
 interface GeoPlace {
   name: string;
@@ -62,7 +63,7 @@ export function AddMomentDialog({
     }
     const t = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/weather/search?q=${encodeURIComponent(venue.trim())}`);
+        const res = await fetch(apiUrl(`/api/weather/search?q=${encodeURIComponent(venue.trim())}`));
         const data = await res.json();
         setSuggestions(data.results ?? []);
       } catch {
@@ -110,7 +111,7 @@ export function AddMomentDialog({
     const delay = coords ? 0 : 500;
     const timer = setTimeout(() => {
       setLoadingWeather(true);
-      fetch(`/api/weather?${query}`)
+      fetch(apiUrl(`/api/weather?${query}`))
         .then((r) => r.json())
         .then((data) => {
           if (!live) return;

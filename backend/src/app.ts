@@ -152,7 +152,12 @@ if (hasWeb) {
       index: false,
       maxAge: '1y',
       setHeaders(res, filePath) {
-        if (filePath.endsWith('index.html')) res.setHeader('Cache-Control', 'no-cache');
+        // Fingerprinted assets can be cached hard. These three cannot: index.html is the shell,
+        // and a service worker or manifest pinned for a year would leave an installed app stuck
+        // on an old build with no way to update itself.
+        if (/(index\.html|sw\.js|workbox-[^/]+\.js|manifest\.webmanifest)$/.test(filePath)) {
+          res.setHeader('Cache-Control', 'no-cache');
+        }
       },
     }),
   );
