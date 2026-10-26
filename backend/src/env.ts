@@ -90,6 +90,14 @@ export const env = {
 } as const;
 
 /** Called once at boot so misconfiguration is loud and immediate. */
+/**
+ * Origins the Capacitor shell serves the bundled app from. They carry no http(s) scheme but are
+ * ours, so the production check treats them as valid entries rather than malformed ones.
+ *   iOS      capacitor://localhost
+ *   Android  https://localhost  (already valid https, listed for completeness)
+ */
+const NATIVE_ORIGINS = new Set(['capacitor://localhost', 'ionic://localhost', 'https://localhost']);
+
 export function assertProductionReady(): void {
   if (!isProd) return;
   const problems: string[] = [];
@@ -102,7 +110,13 @@ export function assertProductionReady(): void {
     console.warn('⚠️  ADMIN_TOKEN is not set. Catalogue ingest routes are disabled until it is.');
   }
   for (const o of env.allowedOrigins) {
-    if (!/^https?:\/\//.test(o)) problems.push(`ALLOWED_ORIGINS entry "${o}" must include the scheme, e.g. https://…`);
+    // The native shells are legitimate origins that are not http(s): iOS serves the bundle from
+    // capacitor://localhost (ionic://localhost on older shells). Rejecting those would mean the
+    // server refuses to boot the moment the mobile app is added to the allowlist.
+    if (NATIVE_ORIGINS.has(o)) continue;
+    if (!/^https?:\/\//.test(o)) {
+      problems.push(`ALLOWED_ORIGINS entry "${o}" must include the scheme, e.g. https://… (native shells: ${[...NATIVE_ORIGINS].join(', ')})`);
+    }
     if (o.startsWith('http://') && !o.includes('localhost')) problems.push(`ALLOWED_ORIGINS entry "${o}" is plain HTTP.`);
   }
 

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">FORYA</string>
+    <string name="title_activity_main">FORYA</string>
+    <string name="package_name">com.forya.app</string>
+    <string name="custom_url_scheme">com.forya.app</string>
+</resources>
