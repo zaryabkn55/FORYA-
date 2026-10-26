@@ -3339,3 +3339,88 @@ a.offer:hover {
   .capture-preview { aspect-ratio: 1 / 1; }
   .capture-intro { padding: 14px; }
 }
+
+/* ── Touch sizing ──────────────────────────────────────────────────────────
+   Measured with scripts/audit-responsive.mjs, which found no layout overflow
+   at any width but plenty of controls below a comfortable finger target. These
+   rules apply only where the pointer is coarse — a phone, a tablet, a touch
+   laptop — so the desktop interface keeps its compact proportions.
+
+   40px is the floor used here. Apple asks for 44 and Google 48, but those
+   assume a control standing alone; chips and badges sit in dense rows where
+   44px each would push the row to wrap. Where a control is genuinely small and
+   alone — a checkbox, an icon button — it gets the full 44. */
+@media (pointer: coarse) {
+  .btn-sm { height: 42px; padding: 0 18px; }
+
+  .chip { height: 40px; padding: 0 16px; }
+
+  .icon-btn-sm { width: 42px; height: 42px; }
+
+  /* The department toggle and other small segmented controls. */
+  .tabs button,
+  [role='tab'] { min-height: 42px; }
+
+  /* A 18px checkbox is the smallest thing on the page and the easiest to miss.
+     The box itself stays visually modest; the tappable area is what grows. */
+  input[type='checkbox'],
+  input[type='radio'] {
+    width: 22px;
+    height: 22px;
+    /* Extends the hit area past the painted box without shifting the layout. */
+    outline-offset: 10px;
+  }
+  label:has(> input[type='checkbox']),
+  label:has(> input[type='radio']) { min-height: 44px; display: flex; align-items: center; gap: 10px; }
+
+  /* An inline link inside a sentence should not become a 44px block — that
+     would break the line. Give it vertical padding instead, which widens the
+     target while leaving the text where it sits. */
+  p a, .small a, a.small { padding-block: 6px; }
+}
+
+/* ── Small type on small screens ───────────────────────────────────────────
+   10px labels are legible on a desktop monitor at arm's length and not on a
+   phone held at reading distance. These lift the floor to 11.5px on phones
+   without touching the desktop scale. */
+@media (max-width: 640px) {
+  .brand-label { font-size: 11.5px; }
+  .badge { font-size: 11.5px; }
+  .eyebrow { font-size: 11.5px; letter-spacing: 0.1em; }
+}
+
+/* Remaining touch targets found by the audit: the department toggle in its
+   compact form, header nav links, and the small standalone links under auth
+   forms. Each sits alone rather than in a dense row, so each gets the full
+   comfortable target. */
+@media (pointer: coarse) {
+  .dept-switch button,
+  .dept-switch.is-compact button { min-height: 40px; }
+
+  nav a,
+  .nav-links a { padding-block: 10px; }
+
+  /* "Forgot it?", "Create an account" and friends: a lone link under a field. */
+  .auth-form a.small,
+  form > a.small,
+  .stack > a.small { min-height: 40px; display: inline-flex; align-items: center; }
+
+  /* The label is the hit area for a checkbox row, so it carries the height. */
+  label.check,
+  label.switch { min-height: 44px; display: flex; align-items: center; gap: 10px; }
+
+  .logo { min-height: 40px; display: inline-flex; align-items: center; }
+}
+
+/* A 10px badge is below the legible floor on any screen, not just a phone, so
+   this one applies everywhere. Badges stay the smallest type in the interface —
+   they are metadata, not reading matter — but not illegibly so. */
+.badge { font-size: 11.5px; }
+@media (max-width: 640px) {
+  .badge { font-size: 12px; }
+}
+
+/* The header links are the one nav target the audit still found short. */
+@media (pointer: coarse) {
+  .navlink { padding-block: 10px; display: inline-flex; align-items: center; min-height: 40px; }
+}

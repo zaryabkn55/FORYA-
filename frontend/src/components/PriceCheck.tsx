@@ -64,7 +64,7 @@ export function PriceCheck({ product, check }: { product: Product; check: Check 
               <Icon name={o.kind === 'resale' ? 'recycle' : 'bag'} size={18} />
               <div>
                 <div className="h4" style={{ fontSize: 15 }}>
-                  {o.retailer} {o === check.best && <span className="badge badge-ink" style={{ height: 20, fontSize: 10.5, marginLeft: 6 }}>Best price</span>}
+                  {o.retailer} {o === check.best && <span className="badge badge-ink" style={{ marginLeft: 6 }}>Best price</span>}
                 </div>
                 <div className="small">
                   {o.condition} · {o.delivery}
