@@ -117,7 +117,7 @@ function ProductDrawer({ productId, onClose }: { productId: string; onClose: () 
       }
     >
       <div className="stack" style={{ gap: 24 }}>
-        <div style={{ background: 'var(--sheet)', borderRadius: 24, aspectRatio: '1', display: 'grid', placeItems: 'center' }}>
+        <div style={{ background: 'var(--surface)', borderRadius: 24, aspectRatio: '1', display: 'grid', placeItems: 'center' }}>
           <img src={p.imageUrl} alt={p.name} style={{ width: '78%', height: '78%', objectFit: 'contain', mixBlendMode: 'multiply' }} />
         </div>
 

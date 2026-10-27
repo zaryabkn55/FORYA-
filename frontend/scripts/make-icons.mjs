@@ -10,9 +10,9 @@ const { chromium } = require('playwright');
 const OUT = '/home/claude/work/FORYA/frontend/public/icons';
 mkdirSync(OUT, { recursive: true });
 
-const INK = '#2E2D2B';
-const PAPER = '#F6F5F2';
-const SAND = '#E8DFD0';
+const INK = '#18181B';
+const PAPER = '#FFFFFF';
+const FLAME = '#F05A1E';
 
 // The mark itself. `inset` leaves the safe area a maskable icon needs: Android may crop to a
 // circle, so the wordmark sits inside the middle 72% and the background runs full bleed.
@@ -29,7 +29,7 @@ const mark = (size, { rounded, inset }) => {
     <text x="${x}" y="${y}" font-family="Helvetica,Arial,sans-serif" font-weight="800"
           font-size="${fs}" letter-spacing="${-fs * 0.07}" fill="${PAPER}">FOR</text>
     <text x="${x + w * 0.635}" y="${y}" font-family="Georgia,serif" font-style="italic"
-          font-size="${fs * 0.92}" fill="${SAND}">ya</text>
+          font-size="${fs * 0.92}" fill="${FLAME}">ya</text>
   </svg>`;
 };
 

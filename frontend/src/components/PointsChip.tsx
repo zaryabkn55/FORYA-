@@ -17,7 +17,7 @@ export function PointsChip() {
   const deg = Math.round(progress * 360);
   return (
     <div className="points-chip" title={next ? `${next.at - total} points to ${next.name}` : 'Top level reached'}>
-      <span className="points-ring" style={{ background: `conic-gradient(var(--ink) ${deg}deg, var(--linen) 0)` }}>
+      <span className="points-ring" style={{ background: `conic-gradient(var(--ink) ${deg}deg, var(--line) 0)` }}>
         <span>
           <Icon name="trophy" size={15} />
         </span>

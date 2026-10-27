@@ -24,7 +24,7 @@
   padding: 0 8px 0 20px;
   border-radius: 999px;
   background: var(--white);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   box-shadow: var(--shadow-md);
   transition: border-color 0.15s var(--ease);
 }
@@ -88,7 +88,7 @@
   width: 64px;
   height: 64px;
   border-radius: 14px;
-  background: var(--sheet);
+  background: var(--surface);
   object-fit: contain;
   mix-blend-mode: multiply;
 }
@@ -101,8 +101,8 @@
 }
 
 .brand-strip {
-  border-top: 1.5px solid var(--linen);
-  border-bottom: 1.5px solid var(--linen);
+  border-top: 1.5px solid var(--line);
+  border-bottom: 1.5px solid var(--line);
   padding: 22px 0;
 }
 
@@ -140,7 +140,7 @@
 
 .step-art-moments,
 .step-art-price {
-  background: var(--sheet);
+  background: var(--surface);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -217,7 +217,7 @@
 }
 
 .price-feature {
-  background: var(--oat);
+  background: var(--panel);
   padding: 96px 0;
 }
 
@@ -254,7 +254,7 @@
   position: relative;
   aspect-ratio: 1;
   border-radius: 32px;
-  background: var(--sheet);
+  background: var(--surface);
   overflow: hidden;
 }
 
@@ -275,8 +275,8 @@
   display: grid;
   gap: 14px;
   padding: 20px 0;
-  border-top: 1.5px solid var(--linen);
-  border-bottom: 1.5px solid var(--linen);
+  border-top: 1.5px solid var(--line);
+  border-bottom: 1.5px solid var(--line);
 }
 
 .look-total {

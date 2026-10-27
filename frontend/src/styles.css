@@ -5,21 +5,38 @@
    ========================================================================== */
 
 :root {
-  --ink: #2e2d2b;
-  --ink-soft: #4a4844;
-  --paper: #f6f5f2;
-  --white: #ffffff;
-  --oat: #e8dfd0;
-  --sheet: #f1ebe1;
-  --linen: #e3dfd8;
-  --mist: #ece9e3;
-  --pebble: #6e6b65;
-  --stone: #9b968d;
+  /* Ink — neutral charcoal. The wordmark colour. No warm cast. */
+  --ink: #18181b;
+  --ink-soft: #3f3f46;
 
-  --good: #3f5f48;
-  --good-bg: #e3eadd;
-  --high: #8a4b2e;
-  --high-bg: #f3e3d8;
+  /* Surfaces — white first. Panels are the faintest cool greys, not beige. */
+  --paper: #ffffff;
+  --white: #ffffff;
+  --surface: #fafafa;
+  --panel: #f5f5f6;
+  --haze: #f0f0f2;
+  --line: #e4e4e7;
+
+  /* Secondary and tertiary type. --pebble clears 4.5:1 on white; --stone is for
+     non-essential text only. */
+  --pebble: #6b6b76;
+  --stone: #8c8c97;
+
+  /* Flame — the single brand accent. A hint, used on interactive details rather
+     than on whole surfaces: active states, focus, the odd marker.
+     --flame-deep is the text-safe version (5.2:1 on white); --flame is 3.4:1 on white,
+     which clears the 3:1 bar for icons, marks and borders but NOT for text — on white,
+     orange type uses --flame-deep. On ink, --flame reaches 5.2:1 and is safe either way. */
+  --flame: #f05a1e;
+  --flame-deep: #c2410c;
+  --flame-wash: #fff2ea;
+
+  /* Price verdicts stay semantic and stay away from the accent: green for good,
+     a true red for high, so neither can be mistaken for brand orange. */
+  --good: #1f7a45;
+  --good-bg: #e7f4ec;
+  --high: #b42318;
+  --high-bg: #fdecea;
 
   --font-sans: 'Bricolage Grotesque', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
@@ -30,9 +47,9 @@
   --r-md: 16px;
   --r-lg: 24px;
   --r-xl: 32px;
-  --shadow-sm: 0 1px 2px rgba(46, 45, 43, 0.06);
-  --shadow-md: 0 10px 30px -12px rgba(46, 45, 43, 0.18);
-  --shadow-lg: 0 30px 60px -20px rgba(46, 45, 43, 0.28);
+  --shadow-sm: 0 1px 2px rgba(24, 24, 27, 0.06);
+  --shadow-md: 0 10px 30px -12px rgba(24, 24, 27, 0.18);
+  --shadow-lg: 0 30px 60px -20px rgba(24, 24, 27, 0.28);
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --nav-h: 68px;
 }
@@ -77,12 +94,12 @@ textarea {
 }
 
 :focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--flame);
   outline-offset: 3px;
 }
 
 ::selection {
-  background: var(--oat);
+  background: var(--panel);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -321,7 +338,7 @@ textarea {
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #1f1e1c;
+  background: #27272a;
 }
 
 .btn-secondary {
@@ -337,7 +354,7 @@ textarea {
 
 .btn-quiet {
   background: var(--white);
-  border-color: var(--linen);
+  border-color: var(--line);
   color: var(--ink);
 }
 
@@ -352,16 +369,16 @@ textarea {
 }
 
 .btn-ghost:hover:not(:disabled) {
-  background: var(--mist);
+  background: var(--haze);
 }
 
 .btn-oat {
-  background: var(--oat);
+  background: var(--panel);
   color: var(--ink);
 }
 
 .btn-oat:hover:not(:disabled) {
-  background: #ded3c1;
+  background: #e4e4e7;
 }
 
 .btn-sm {
@@ -386,7 +403,7 @@ textarea {
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   background: var(--white);
   color: var(--ink);
   cursor: pointer;
@@ -428,7 +445,7 @@ textarea {
   height: 38px;
   padding: 0 15px;
   border-radius: 999px;
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   background: transparent;
   font-size: 14px;
   font-weight: 500;
@@ -463,12 +480,12 @@ textarea {
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
-  background: var(--mist);
+  background: var(--haze);
   color: var(--ink);
 }
 
 .badge-oat {
-  background: var(--oat);
+  background: var(--panel);
 }
 
 .badge-paper {
@@ -486,7 +503,7 @@ textarea {
 
 .badge-outline {
   background: transparent;
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   color: var(--pebble);
 }
 
@@ -512,7 +529,7 @@ textarea {
 
 .card {
   background: var(--white);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   border-radius: var(--r-lg);
 }
 
@@ -521,7 +538,7 @@ textarea {
 }
 
 .panel {
-  background: var(--sheet);
+  background: var(--surface);
   border-radius: var(--r-lg);
 }
 
@@ -551,7 +568,7 @@ textarea {
   height: 50px;
   padding: 0 16px;
   border-radius: 14px;
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   background: var(--white);
   font-size: 15px;
   transition: border-color 0.15s var(--ease);
@@ -566,20 +583,21 @@ textarea {
 
 .input::placeholder,
 .textarea::placeholder {
-  color: #a7a29a;
+  color: #a1a1aa;
 }
 
 .input:hover,
 .select:hover,
 .textarea:hover {
-  border-color: #cfc9be;
+  border-color: #d4d4d8;
 }
 
 .input:focus,
 .select:focus,
 .textarea:focus {
   outline: none;
-  border-color: var(--ink);
+  border-color: var(--flame);
+  box-shadow: 0 0 0 3px var(--flame-wash);
 }
 
 .select {
@@ -644,7 +662,7 @@ textarea {
   content: '';
   flex: 1;
   height: 1.5px;
-  background: var(--linen);
+  background: var(--line);
 }
 
 /* --- Top navigation ------------------------------------------------------ */
@@ -662,7 +680,7 @@ textarea {
 }
 
 .topnav.is-scrolled {
-  border-bottom-color: var(--linen);
+  border-bottom-color: var(--line);
 }
 
 .topnav-inner {
@@ -693,7 +711,7 @@ textarea {
 }
 
 .navlink:hover {
-  background: var(--mist);
+  background: var(--haze);
 }
 
 .navlink.active {
@@ -714,7 +732,7 @@ textarea {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--oat);
+  background: var(--panel);
   border: 0;
   font-weight: 600;
   font-size: 15px;
@@ -729,14 +747,14 @@ textarea {
   padding: 8px;
   border-radius: 18px;
   background: var(--white);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   box-shadow: var(--shadow-md);
   z-index: 60;
 }
 
 .menu-head {
   padding: 10px 12px 12px;
-  border-bottom: 1.5px solid var(--mist);
+  border-bottom: 1.5px solid var(--haze);
   margin-bottom: 6px;
 }
 
@@ -757,7 +775,7 @@ textarea {
 }
 
 .menu-item:hover {
-  background: var(--mist);
+  background: var(--haze);
 }
 
 .mobile-tabs {
@@ -782,7 +800,7 @@ textarea {
     padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
     background: rgba(246, 245, 242, 0.96);
     backdrop-filter: blur(12px);
-    border-top: 1.5px solid var(--linen);
+    border-top: 1.5px solid var(--line);
   }
   .mobile-tabs a {
     display: flex;
@@ -806,7 +824,7 @@ textarea {
 /* --- Footer -------------------------------------------------------------- */
 
 .footer {
-  border-top: 1.5px solid var(--linen);
+  border-top: 1.5px solid var(--line);
   padding: 56px 0 40px;
 }
 
@@ -857,7 +875,7 @@ textarea {
 .photo {
   position: relative;
   overflow: hidden;
-  background: var(--oat);
+  background: var(--panel);
   border-radius: var(--r-lg);
 }
 
@@ -900,7 +918,7 @@ textarea {
   position: relative;
   aspect-ratio: 4 / 5;
   border-radius: 20px;
-  background: var(--sheet);
+  background: var(--surface);
   overflow: hidden;
 }
 
@@ -977,14 +995,14 @@ textarea {
   flex-direction: column;
   border-radius: var(--r-lg);
   background: var(--white);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   overflow: hidden;
   text-decoration: none;
   transition: border-color 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
 
 .moment-card:hover {
-  border-color: #cfc9be;
+  border-color: #d4d4d8;
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
@@ -1154,7 +1172,7 @@ textarea {
   flex-direction: column;
   justify-content: space-between;
   padding: 16px 18px;
-  border-bottom: 1.5px solid rgba(46, 45, 43, 0.06);
+  border-bottom: 1.5px solid rgba(24, 24, 27, 0.06);
 }
 
 .moment-card:hover .m-art-sky {
@@ -1174,7 +1192,7 @@ textarea {
 .look-preview {
   position: relative;
   aspect-ratio: 1;
-  background: var(--sheet);
+  background: var(--surface);
   border-radius: 18px;
   overflow: hidden;
 }
@@ -1192,7 +1210,7 @@ textarea {
   inset: 10px;
   display: grid;
   place-items: center;
-  border: 1.5px dashed #cfc9be;
+  border: 1.5px dashed #d4d4d8;
   border-radius: 12px;
   color: var(--pebble);
   font-family: var(--font-hand);
@@ -1206,7 +1224,7 @@ textarea {
   position: fixed;
   inset: 0;
   z-index: 80;
-  background: rgba(46, 45, 43, 0.32);
+  background: rgba(24, 24, 27, 0.32);
   animation: fade-in 0.2s var(--ease);
 }
 
@@ -1230,7 +1248,7 @@ textarea {
   justify-content: space-between;
   gap: 12px;
   padding: 18px 24px;
-  border-bottom: 1.5px solid var(--linen);
+  border-bottom: 1.5px solid var(--line);
 }
 
 .drawer-body {
@@ -1241,7 +1259,7 @@ textarea {
 
 .drawer-foot {
   padding: 16px 24px 20px;
-  border-top: 1.5px solid var(--linen);
+  border-top: 1.5px solid var(--line);
   display: flex;
   gap: 10px;
 }
@@ -1293,7 +1311,7 @@ textarea {
 .pricecheck {
   border-radius: var(--r-lg);
   background: var(--white);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   overflow: hidden;
 }
 
@@ -1303,14 +1321,14 @@ textarea {
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  border-bottom: 1.5px solid var(--mist);
+  border-bottom: 1.5px solid var(--haze);
 }
 
 .price-range {
   position: relative;
   height: 6px;
   border-radius: 6px;
-  background: var(--mist);
+  background: var(--haze);
   margin: 14px 0 6px;
 }
 
@@ -1319,7 +1337,7 @@ textarea {
   top: 0;
   bottom: 0;
   border-radius: 6px;
-  background: var(--oat);
+  background: var(--panel);
 }
 
 .price-range-pin {
@@ -1329,7 +1347,7 @@ textarea {
   height: 14px;
   border-radius: 50%;
   border: 3px solid var(--paper);
-  background: var(--ink);
+  background: var(--flame);
   transform: translate(-50%, -50%);
   box-shadow: var(--shadow-sm);
 }
@@ -1340,7 +1358,7 @@ textarea {
   align-items: center;
   gap: 4px 12px;
   padding: 14px 20px;
-  border-bottom: 1.5px solid var(--mist);
+  border-bottom: 1.5px solid var(--haze);
 }
 
 .offer:last-child {
@@ -1386,7 +1404,7 @@ textarea {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: var(--oat);
+  background: var(--panel);
   color: var(--ink);
 }
 
@@ -1401,7 +1419,7 @@ textarea {
   gap: 4px;
   padding: 4px;
   border-radius: 999px;
-  background: var(--mist);
+  background: var(--haze);
 }
 
 .tabs button {
@@ -1429,13 +1447,13 @@ textarea {
   gap: 12px;
   padding: 56px 24px;
   text-align: center;
-  border: 1.5px dashed #cfc9be;
+  border: 1.5px dashed #d4d4d8;
   border-radius: var(--r-lg);
 }
 
 .skeleton {
   border-radius: var(--r-lg);
-  background: linear-gradient(90deg, var(--mist), #f3f1ed, var(--mist));
+  background: linear-gradient(90deg, var(--haze), #fafafa, var(--haze));
   background-size: 200% 100%;
   animation: shimmer 1.3s linear infinite;
 }
@@ -1458,7 +1476,7 @@ textarea {
   padding: 0 12px;
   border-radius: 999px;
   background: var(--white);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   font-size: 12px;
   font-weight: 600;
   color: var(--pebble);
@@ -1625,7 +1643,7 @@ textarea {
 .upnext-art {
   min-height: 460px;
   border-radius: 32px;
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
 }
 
 .upnext-art .m-art-sky {
@@ -1701,7 +1719,7 @@ textarea {
   padding: 20px;
   border-radius: 32px;
   background: var(--white);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
 }
 
 .moment-grid {
@@ -1718,7 +1736,7 @@ textarea {
   gap: 8px;
   min-height: 320px;
   border-radius: var(--r-lg);
-  border: 1.5px dashed #cfc9be;
+  border: 1.5px dashed #d4d4d8;
   background: transparent;
   cursor: pointer;
   transition: border-color 0.15s var(--ease), background-color 0.15s var(--ease);
@@ -1735,7 +1753,7 @@ textarea {
   gap: 48px;
   padding: 40px;
   border-radius: 32px;
-  background: var(--oat);
+  background: var(--panel);
 }
 
 .watch-list {
@@ -1788,7 +1806,7 @@ textarea {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: var(--sheet);
+  background: var(--surface);
 }
 
 .journal-chip img {
@@ -1897,7 +1915,7 @@ textarea {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   border-radius: 32px;
   overflow: hidden;
-  background: var(--sheet);
+  background: var(--surface);
 }
 
 .wardrobe-hero-photo {
@@ -1919,7 +1937,7 @@ textarea {
   gap: 16px;
   margin-top: 12px;
   padding-top: 20px;
-  border-top: 1.5px solid var(--linen);
+  border-top: 1.5px solid var(--line);
 }
 
 .stat-row > div {
@@ -1952,7 +1970,7 @@ textarea {
   overflow: hidden;
   cursor: pointer;
   aspect-ratio: 1;
-  background: var(--oat);
+  background: var(--panel);
 }
 
 .cover img {
@@ -1994,7 +2012,7 @@ textarea {
   flex-wrap: wrap;
   padding: 18px 22px;
   border-radius: var(--r-lg);
-  background: var(--sheet);
+  background: var(--surface);
 }
 
 .forecast-pick {
@@ -2046,7 +2064,7 @@ textarea {
   height: 24px;
   margin: 0;
   border-radius: 999px;
-  background: var(--linen);
+  background: var(--line);
   cursor: pointer;
   transition: background-color 0.15s var(--ease);
 }
@@ -2086,8 +2104,8 @@ textarea {
   width: 100%;
   padding: 16px 18px;
   border-radius: 18px;
-  border: 1.5px dashed #cfc9be;
-  background: var(--sheet);
+  border: 1.5px dashed #d4d4d8;
+  background: var(--surface);
   text-align: left;
   cursor: pointer;
   transition: border-color 0.15s var(--ease);
@@ -2135,7 +2153,7 @@ a.offer:hover {
   display: grid;
   place-items: center;
   border-radius: 18px;
-  background: var(--mist);
+  background: var(--haze);
   overflow: hidden;
   box-shadow: var(--shadow-md);
 }
@@ -2157,12 +2175,12 @@ a.offer:hover {
 }
 
 .btn-instagram {
-  background: linear-gradient(90deg, #2e2d2b, #4a4844);
+  background: linear-gradient(90deg, #2e2d2b, #3f3f46);
   color: var(--paper);
 }
 
 .btn-instagram:hover:not(:disabled) {
-  background: #1f1e1c;
+  background: #27272a;
 }
 
 .share-socials {
@@ -2177,7 +2195,7 @@ a.offer:hover {
   gap: 10px;
   padding: 18px 20px;
   border-radius: 20px;
-  background: var(--sheet);
+  background: var(--surface);
 }
 
 .points-bar {
@@ -2215,7 +2233,7 @@ a.offer:hover {
   height: 48px;
   padding: 0 18px;
   border-radius: 999px;
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   background: var(--white);
   font-weight: 600;
   cursor: pointer;
@@ -2244,7 +2262,7 @@ a.offer:hover {
   flex-direction: column;
   gap: 12px;
   padding-top: 16px;
-  border-top: 1.5px solid var(--mist);
+  border-top: 1.5px solid var(--haze);
 }
 
 @media (max-width: 860px) {
@@ -2262,7 +2280,7 @@ a.offer:hover {
   padding: 0 16px 0 6px;
   border-radius: 999px;
   background: var(--white);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
 }
 
 .points-ring {
@@ -2279,7 +2297,7 @@ a.offer:hover {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--oat);
+  background: var(--panel);
 }
 
 /* --- Departments ---------------------------------------------------------- */
@@ -2288,8 +2306,8 @@ a.offer:hover {
   display: inline-flex;
   padding: 3px;
   border-radius: 999px;
-  background: var(--mist);
-  border: 1px solid var(--linen);
+  background: var(--haze);
+  border: 1px solid var(--line);
   gap: 2px;
 }
 .dept-switch button {
@@ -2317,7 +2335,7 @@ a.offer:hover {
   flex-direction: column;
   gap: 8px;
   padding: 10px 14px 12px;
-  border-bottom: 1px solid var(--linen);
+  border-bottom: 1px solid var(--line);
 }
 .dept-cards {
   display: grid;
@@ -2331,7 +2349,7 @@ a.offer:hover {
   gap: 6px;
   padding: 20px;
   border-radius: var(--r-md);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   background: var(--white);
   text-align: left;
   cursor: pointer;
@@ -2354,11 +2372,11 @@ a.offer:hover {
 /* --- AI ------------------------------------------------------------------- */
 
 .btn-ai {
-  background: linear-gradient(135deg, #2e2d2b, #4a4237);
+  background: linear-gradient(135deg, #2e2d2b, #3f3f46);
   color: var(--paper);
 }
 .btn-ai:hover:not(:disabled) {
-  background: linear-gradient(135deg, #1f1e1c, #3b342b);
+  background: linear-gradient(135deg, #27272a, #27272a);
 }
 .stylist-mark {
   display: inline-grid;
@@ -2368,7 +2386,7 @@ a.offer:hover {
   flex: none;
   border-radius: 50%;
   background: var(--ink);
-  color: var(--oat);
+  color: var(--panel);
 }
 .fit-badge {
   position: absolute;
@@ -2418,8 +2436,8 @@ a.offer:hover {
   gap: 18px;
   padding: 24px;
   border-radius: var(--r-lg);
-  background: var(--sheet);
-  border: 1px solid var(--linen);
+  background: var(--surface);
+  border: 1px solid var(--line);
 }
 .ai-picks-head {
   display: flex;
@@ -2440,8 +2458,8 @@ a.offer:hover {
   padding: 16px 18px;
   margin-bottom: 20px;
   border-radius: var(--r-md);
-  background: var(--sheet);
-  border: 1px solid var(--linen);
+  background: var(--surface);
+  border: 1px solid var(--line);
 }
 @media (max-width: 640px) {
   .ai-brief {
@@ -2465,7 +2483,7 @@ a.offer:hover {
   padding: 0 20px;
   border: 0;
   border-radius: 999px;
-  background: linear-gradient(135deg, #2e2d2b, #4a4237);
+  background: linear-gradient(135deg, #2e2d2b, #3f3f46);
   color: var(--paper);
   font: 600 15px var(--font-sans);
   box-shadow: var(--shadow-lg);
@@ -2476,7 +2494,7 @@ a.offer:hover {
   transform: translateY(-2px);
 }
 .stylist-fab svg {
-  color: var(--oat);
+  color: var(--panel);
 }
 .stylist {
   position: fixed;
@@ -2489,7 +2507,7 @@ a.offer:hover {
   flex-direction: column;
   border-radius: var(--r-lg);
   background: var(--paper);
-  border: 1px solid var(--linen);
+  border: 1px solid var(--line);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   animation: stylist-in 0.25s var(--ease);
@@ -2505,7 +2523,7 @@ a.offer:hover {
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px;
-  border-bottom: 1px solid var(--linen);
+  border-bottom: 1px solid var(--line);
   background: var(--white);
 }
 .stylist-body {
@@ -2523,7 +2541,7 @@ a.offer:hover {
   gap: 10px;
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid var(--linen);
+  border: 1px solid var(--line);
   background: var(--white);
   font: 500 14px var(--font-sans);
   color: var(--ink);
@@ -2557,7 +2575,7 @@ a.offer:hover {
 }
 .bubble.assistant p {
   background: var(--white);
-  border: 1px solid var(--linen);
+  border: 1px solid var(--line);
   border-bottom-left-radius: 6px;
 }
 .bubble-source {
@@ -2587,7 +2605,7 @@ a.offer:hover {
   border-radius: 12px;
   overflow: hidden;
   background: var(--white);
-  border: 1px solid var(--linen);
+  border: 1px solid var(--line);
   margin-bottom: 4px;
 }
 .mini-media img {
@@ -2658,7 +2676,7 @@ a.offer:hover {
   display: flex;
   gap: 8px;
   padding: 12px;
-  border-top: 1px solid var(--linen);
+  border-top: 1px solid var(--line);
   background: var(--white);
 }
 .stylist-input .input {
@@ -2703,7 +2721,7 @@ a.offer:hover {
 
 .cal {
   background: var(--white);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   border-radius: var(--r-xl);
   padding: 20px 20px 16px;
 }
@@ -2730,7 +2748,7 @@ a.offer:hover {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   background: var(--white);
   color: var(--pebble);
   display: grid;
@@ -2740,7 +2758,7 @@ a.offer:hover {
 }
 
 .cal-arrow:hover {
-  background: var(--sheet);
+  background: var(--surface);
   color: var(--ink);
   transform: translateY(-1px);
 }
@@ -2792,7 +2810,7 @@ a.offer:hover {
 }
 
 .cal-day:hover {
-  background: var(--sheet);
+  background: var(--surface);
   transform: translateY(-1px);
 }
 
@@ -2815,7 +2833,7 @@ a.offer:hover {
 }
 
 .cal-day.is-today {
-  box-shadow: inset 0 0 0 1.5px var(--oat);
+  box-shadow: inset 0 0 0 1.5px var(--panel);
 }
 
 .cal-day.is-today .cal-num {
@@ -2862,7 +2880,7 @@ a.offer:hover {
 .cal-foot {
   margin-top: 14px;
   padding-top: 13px;
-  border-top: 1px solid var(--mist);
+  border-top: 1px solid var(--haze);
   min-height: 36px;
   display: flex;
   align-items: center;
@@ -2900,7 +2918,7 @@ a.offer:hover {
 .m-group-rule {
   flex: 1;
   height: 1px;
-  background: var(--linen);
+  background: var(--line);
 }
 
 .m-group-note {
@@ -2919,7 +2937,7 @@ a.offer:hover {
   padding: 16px 18px 16px 24px;
   border-radius: var(--r-lg);
   background: var(--white);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   text-decoration: none;
   color: var(--ink);
   overflow: hidden;
@@ -2928,7 +2946,7 @@ a.offer:hover {
 
 .m-row:hover {
   transform: translateY(-2px);
-  border-color: #cfc9be;
+  border-color: #d4d4d8;
   box-shadow: var(--shadow-md);
 }
 
@@ -3030,7 +3048,7 @@ a.offer:hover {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  border: 1.5px dashed var(--linen);
+  border: 1.5px dashed var(--line);
   transition: border-color 0.22s var(--ease);
 }
 
@@ -3095,7 +3113,7 @@ a.offer:hover {
   gap: 16px;
   padding: 18px 22px;
   border-radius: var(--r-lg);
-  border: 1.5px dashed var(--linen);
+  border: 1.5px dashed var(--line);
   background: none;
   text-align: left;
   color: var(--ink);
@@ -3250,14 +3268,14 @@ a.offer:hover {
   padding: 14px 16px;
   border-radius: var(--r-lg);
   background: var(--white);
-  border: 1.5px solid var(--linen);
+  border: 1.5px solid var(--line);
   text-decoration: none;
   color: var(--ink);
   transition: border-color 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
 
 .cal-next:hover {
-  border-color: #cfc9be;
+  border-color: #d4d4d8;
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
@@ -3282,7 +3300,7 @@ a.offer:hover {
   height: 52px;
   flex-shrink: 0;
   border-radius: 16px;
-  background: var(--sheet);
+  background: var(--surface);
   line-height: 1;
 }
 
@@ -3310,7 +3328,7 @@ a.offer:hover {
   align-items: flex-start;
   padding: 16px;
   border-radius: 14px;
-  background: var(--oat, #F0ECE4);
+  background: var(--panel, #f5f5f6);
   color: var(--ink, #2E2D2B);
 }
 .capture-intro p { margin: 0; }
@@ -3322,8 +3340,8 @@ a.offer:hover {
   border-radius: 16px;
   background:
     radial-gradient(120% 90% at 50% 18%, rgba(255, 255, 255, 0.9), transparent 60%),
-    var(--linen, #F6F5F2);
-  border: 1px solid var(--mist, #E4E0D8);
+    var(--line, #F6F5F2);
+  border: 1px solid var(--haze, #e4e4e7);
   overflow: hidden;
 }
 .capture-preview img {
@@ -3332,7 +3350,7 @@ a.offer:hover {
   object-fit: contain;
   /* A soft contact shadow so a cut-out piece sits on the surface instead of
      hovering over it. */
-  filter: drop-shadow(0 18px 22px rgba(46, 45, 43, 0.18));
+  filter: drop-shadow(0 18px 22px rgba(24, 24, 27, 0.18));
 }
 
 @media (max-width: 520px) {
@@ -3424,3 +3442,96 @@ a.offer:hover {
 @media (pointer: coarse) {
   .navlink { padding-block: 10px; display: inline-flex; align-items: center; min-height: 40px; }
 }
+
+
+/* ── Flame ──────────────────────────────────────────────────────────────────
+   The accent appears on interactive details and nowhere else: no orange
+   surfaces, no orange headings, never two orange things in one view. Ink still
+   carries every primary action — the orange is there to show what is live, what
+   is selected and where you are, against an otherwise white interface. */
+
+/* Where you are: the selected tab keeps its white pill and gains an underline. */
+.tabs button[aria-selected='true'] {
+  position: relative;
+}
+.tabs button[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 5px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--flame);
+}
+
+/* The current section in the phone tab bar. */
+.mobile-tabs a.active { color: var(--flame-deep); }
+.mobile-tabs a.active svg { color: var(--flame); }
+
+/* New arrivals — the one badge that is an invitation rather than a verdict. */
+.badge-white.is-new,
+.badge-new {
+  background: var(--flame-wash);
+  color: var(--flame-deep);
+}
+
+/* Links inside running text resolve to the accent on hover, so a line of body
+   copy has somewhere to go without being underlined in orange throughout. */
+p a:hover,
+.small a:hover,
+a.small:hover { color: var(--flame-deep); }
+
+/* Weather is the one live, changing number in the interface, so it carries the
+   accent wherever it appears — the float card on the home page, a moment card,
+   the forecast line in the moment dialog. */
+.float-moment .row svg,
+.m-weather svg,
+.weather-ico,
+.moment-weather svg { color: var(--flame); }
+
+/* The eyebrow above a section opens with a small flame mark. It is the one place
+   the accent appears on every page, which is what makes it read as the brand's
+   colour rather than as a one-off highlight. Scoped to standalone labels: the
+   eyebrows that sit over photography or inside dark cards are left alone. */
+.hero .eyebrow::before,
+.section > .eyebrow::before,
+.page-head .eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--flame);
+  margin-right: 8px;
+  vertical-align: 1.5px;
+}
+
+/* A saved piece. Ink means owned; flame means wanted. */
+.icon-btn.is-saved,
+.pcard-save.is-active { color: var(--flame); border-color: var(--flame); }
+
+
+/* The counts beside a filter are the one piece of live data in a row of controls,
+   so they carry the accent. Small, repeated, and the first orange most people see. */
+.chip .count { color: var(--flame-deep); font-weight: 600; }
+.chip.is-active .count { color: var(--flame); }
+
+/* The active section in the header keeps its ink pill and gains a flame marker
+   beneath it, so there is somewhere for the eye to land on a white page. */
+.navlink.active { position: relative; }
+.navlink.active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -7px;
+  width: 16px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--flame);
+}
+
+/* The separator in an eyebrow. One character, but it warms the whole label. */
+.eyebrow b,
+.eyebrow .sep { color: var(--flame); font-weight: 400; }

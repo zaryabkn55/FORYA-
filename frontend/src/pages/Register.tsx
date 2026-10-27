@@ -78,7 +78,7 @@ export default function Register() {
           />
           <div className="row" style={{ gap: 6 }} aria-hidden>
             {[1, 2, 3].map((i) => (
-              <span key={i} style={{ flex: 1, height: 4, borderRadius: 4, background: strength >= i ? 'var(--ink)' : 'var(--linen)', transition: 'background .2s' }} />
+              <span key={i} style={{ flex: 1, height: 4, borderRadius: 4, background: strength >= i ? 'var(--ink)' : 'var(--line)', transition: 'background .2s' }} />
             ))}
           </div>
           <span className="hint">At least 8 characters. Mix in a number for a stronger one.</span>

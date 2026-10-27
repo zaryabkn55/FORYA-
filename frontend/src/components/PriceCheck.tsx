@@ -48,7 +48,7 @@ export function PriceCheck({ product, check }: { product: Product; check: Check 
       </div>
 
       {saving > 1 && (
-        <div className="row" style={{ padding: '12px 20px', background: 'var(--sheet)', gap: 10 }}>
+        <div className="row" style={{ padding: '12px 20px', background: 'var(--surface)', gap: 10 }}>
           <Icon name="tag" size={18} />
           <span style={{ fontSize: 14 }}>
             <strong>Save {money(saving)}</strong> at {check.best.retailer}
@@ -81,7 +81,7 @@ export function PriceCheck({ product, check }: { product: Product; check: Check 
         ))}
       </div>
       {check.illustrative && (
-        <div className="row small" style={{ padding: '12px 20px', borderTop: '1.5px solid var(--mist)', gap: 8 }}>
+        <div className="row small" style={{ padding: '12px 20px', borderTop: '1.5px solid var(--haze)', gap: 8 }}>
           <Icon name="info" size={15} /> Illustrative prices until live retailer feeds are connected.
         </div>
       )}
