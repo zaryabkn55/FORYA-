@@ -102,7 +102,43 @@ Signing certificates and store credentials are yours to create and hold.
 
 ---
 
-## 3. What hasn't been done
+## 3. Design reference
+
+The mobile screens live in Figma:
+
+| | |
+|---|---|
+| **File** | https://www.figma.com/design/xT3Ef9h6Gz6F3srBfroeHq |
+| **Key** | `xT3Ef9h6Gz6F3srBfroeHq` |
+| **Palette** | White ground, charcoal ink, one flame accent — matches `frontend/src/styles.css` |
+
+Twelve screens, 390×844 (iPhone 14/15 logical size):
+
+| # | Screen | What it establishes |
+|---|---|---|
+| 01 | Onboarding | The premise — a moment, not a feed |
+| 02 | Today | Home: next moment, weather, suggested look |
+| 03 | Moment detail | A single moment with its look and pieces |
+| 04 | Discover | Browsing the catalogue |
+| 05 | Capture — frame | Camera UI, dark, for photographing a garment |
+| 06 | Capture — lift | The cut-out running **on device** |
+| 07 | Capture — name | Naming, category, cost-per-wear setup |
+| 08 | Wardrobe | Owned pieces as cut-outs, with cost-per-wear |
+| 09 | Stylist | Plain-English request, answer with reasoning |
+| 10 | Price check | 90-day price history |
+| 11 | Look canvas | Slot-guided composition with a piece tray |
+| 12 | Packing | A trip, day by day |
+
+**This link belongs in version control, not a chat.** The previous Figma file's URL was lost
+because it lived only in a conversation. If the file moves or is replaced, change it here.
+
+Image slots are named (`IMG · moment hero`, `IMG · cut-out 1`, …) and sized, with a tonal
+placeholder fill. Dropping real photography in is a designer's job — the assets are in
+`frontend/public/images`.
+
+---
+
+## 4. What hasn't been done
 
 - **No app has been compiled.** This environment has Java and Gradle but no Android SDK, and no
   Xcode or CocoaPods — iOS builds need macOS. The projects are generated and configured; the first
