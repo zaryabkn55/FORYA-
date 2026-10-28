@@ -132,9 +132,15 @@ Twelve screens, 390×844 (iPhone 14/15 logical size):
 **This link belongs in version control, not a chat.** The previous Figma file's URL was lost
 because it lived only in a conversation. If the file moves or is replaced, change it here.
 
-Image slots are named (`IMG · moment hero`, `IMG · cut-out 1`, …) and sized, with a tonal
-placeholder fill. Dropping real photography in is a designer's job — the assets are in
-`frontend/public/images`.
+**Imagery.** Two editorial slots carry real photographs (the Today hero and the Moment-detail
+look). Every garment slot carries line art drawn as vectors — jacket, coat, knit, tee, trousers,
+boot, shoe, flat, tote, scarf — on a tonal ground, light-stroked on the dark capture screens and
+filled rather than stroked below ~58px where strokes collide.
+
+This is a deliberate split, not a stand-in: editorial moments are photographed, pieces are drawn.
+Swapping the drawings for real cut-outs is a one-pass job once the assets are shot — they live in
+`frontend/public/images`, and every slot is named (`IMG · cut-out 1`, `IMG · product hero`) and
+sized for drop-in replacement.
 
 ---
 
