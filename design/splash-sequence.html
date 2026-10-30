@@ -1,0 +1,534 @@
+<title>FORYA Splash Sequence</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap">
+
+<style>
+/* Layout: one narrow column — the phone leads, the frame-by-frame breakdown and the
+   numbers follow it. Page chrome follows the viewer's theme; the phone screen never
+   does, because a white ground is the splash specification itself. */
+:root{
+  --bg:#FAFAFA; --panel:#FFFFFF; --sunk:#F4F4F5;
+  --fg:#18181B; --fg-soft:#3F3F46; --muted:#6B6B76;
+  --line:#E4E4E7; --line-soft:#EFEFF1;
+  --flame:#F05A1E; --flame-text:#C2410C; --flame-wash:#FFF2EA;
+
+  --sans:'Bricolage Grotesque','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+  /* The sequence. Every number on this page is read from these. */
+  --travel:200px;
+  --dur:560ms;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --d-for:60ms; --d-ya:60ms; --d-seam:520ms; --d-hand:1180ms;
+  --dur-seam:260ms; --dur-hand:420ms;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F11; --panel:#16161A; --sunk:#1C1C21;
+    --fg:#F4F4F5; --fg-soft:#D4D4D8; --muted:#9A9AA4;
+    --line:#26262C; --line-soft:#1F1F25;
+    --flame:#FB7139; --flame-text:#FB923C; --flame-wash:#2A1810;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F11; --panel:#16161A; --sunk:#1C1C21;
+  --fg:#F4F4F5; --fg-soft:#D4D4D8; --muted:#9A9AA4;
+  --line:#26262C; --line-soft:#1F1F25;
+  --flame:#FB7139; --flame-text:#FB923C; --flame-wash:#2A1810;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--fg);
+  font-family:var(--sans); font-size:15px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{
+  max-width:900px; margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:40px 72px;
+}
+h1{
+  font-size:clamp(28px,6vw,40px); font-weight:800; letter-spacing:-.035em;
+  line-height:1.05; margin:0 0 10px; text-wrap:balance;
+}
+h1 em{font-family:var(--serif); font-style:italic; font-weight:400; letter-spacing:-.015em}
+h2{
+  font-size:19px; font-weight:700; letter-spacing:-.02em;
+  margin:0 0 4px; text-wrap:balance;
+}
+.lede{color:var(--muted); margin:0; max-width:62ch}
+.eyebrow{
+  font-family:var(--mono); font-size:10.5px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+  margin:0 0 10px; display:flex; align-items:center; gap:7px;
+}
+.eyebrow::before{
+  content:""; width:5px; height:5px; border-radius:50%;
+  background:var(--flame); flex:none;
+}
+section{margin-top:52px}
+
+/* ── the phone ─────────────────────────────────────────────────────────── */
+.stage{
+  display:flex; flex-wrap:wrap; gap:32px; align-items:flex-start;
+  margin-top:24px;
+}
+.phone{
+  flex:none; width:272px; height:556px; position:relative;
+  background:#FFFFFF; border-radius:34px;
+  border:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(24,24,27,.06),0 18px 44px -18px rgba(24,24,27,.28);
+  overflow:hidden; isolation:isolate;
+}
+.statusbar{
+  position:absolute; inset:0 0 auto; height:38px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 20px; font-size:11px; font-weight:600; color:#18181B;
+  letter-spacing:-.01em; opacity:.82; z-index:3;
+}
+.sig{display:flex; align-items:flex-end; gap:2px}
+.sig i{display:block; width:2.5px; background:#18181B; border-radius:1px}
+.sig i:nth-child(1){height:4px} .sig i:nth-child(2){height:6px}
+.sig i:nth-child(3){height:8px} .sig i:nth-child(4){height:10px}
+.batt{
+  width:20px; height:10px; border:1.2px solid #18181B; border-radius:3px;
+  position:relative; padding:1.4px;
+}
+.batt::after{content:""; display:block; height:100%; width:72%; background:#18181B; border-radius:1px}
+.batt::before{
+  content:""; position:absolute; right:-3px; top:3px;
+  width:1.6px; height:4px; background:#18181B; border-radius:0 1px 1px 0;
+}
+
+.screen{position:absolute; inset:0; display:grid; place-items:center; overflow:hidden}
+
+/* The lockup. FOR is Bricolage Grotesque ExtraBold, ya is Instrument Serif Italic —
+   the same two faces the product uses, baseline-aligned, never retyped by hand. */
+.lockup{
+  display:inline-flex; align-items:baseline; line-height:1;
+  font-size:54px; color:#18181B; position:relative;
+}
+.lk-for{font-family:var(--sans); font-weight:800; letter-spacing:-.06em; display:inline-block}
+.lk-ya{font-family:var(--serif); font-style:italic; font-weight:400; letter-spacing:-.02em; padding-left:.02em; display:inline-block}
+/* Zero-width marker sitting exactly on the join, so the seam flash lands where the
+   two halves actually meet rather than at the optical centre. */
+.lk-seam{position:relative; width:0; align-self:baseline}
+.lk-seam b{
+  position:absolute; left:-1px; bottom:-.02em;
+  width:2px; height:.74em; background:var(--flame);
+  border-radius:1px; display:block; transform-origin:50% 100%;
+}
+
+@keyframes fy-for{
+  from{transform:translate3d(calc(var(--travel) * -1),0,0); opacity:0; filter:blur(7px); letter-spacing:-.01em}
+  to  {transform:translate3d(0,0,0); opacity:1; filter:blur(0); letter-spacing:-.06em}
+}
+@keyframes fy-ya{
+  from{transform:translate3d(var(--travel),0,0); opacity:0; filter:blur(7px)}
+  to  {transform:translate3d(0,0,0); opacity:1; filter:blur(0)}
+}
+@keyframes fy-seam{
+  0%  {transform:scaleY(0); opacity:0}
+  34% {transform:scaleY(1); opacity:1}
+  100%{transform:scaleY(1); opacity:0}
+}
+@keyframes fy-lift{
+  from{transform:scale(1); opacity:1}
+  to  {transform:scale(.955); opacity:0}
+}
+@keyframes fy-app{
+  from{opacity:0; transform:translate3d(0,10px,0)}
+  to  {opacity:1; transform:translate3d(0,0,0)}
+}
+
+.anim .lk-for{animation:fy-for var(--dur) var(--ease) var(--d-for) both}
+.anim .lk-ya {animation:fy-ya  var(--dur) var(--ease) var(--d-ya)  both}
+.anim .lk-seam b{animation:fy-seam var(--dur-seam) ease-out var(--d-seam) both}
+.anim.handoff .lockup{animation:fy-lift var(--dur-hand) cubic-bezier(.4,0,1,1) var(--d-hand) both}
+.anim.handoff .appshell{animation:fy-app var(--dur-hand) var(--ease) calc(var(--d-hand) + 80ms) both}
+
+/* What the splash hands off to. Dimmed on purpose — it is context, not the subject. */
+.appshell{position:absolute; inset:38px 0 0; padding:18px 18px 0; opacity:0}
+.appshell .bar{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
+.appshell .mini{font-size:17px}
+.appshell .dot{width:26px; height:26px; border-radius:50%; background:#F0F0F2}
+.appshell .hero{height:150px; border-radius:12px; background:linear-gradient(#F2F2F4,#E8E8EB); margin-bottom:12px}
+.appshell .row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px}
+.appshell .row span{display:block; height:94px; border-radius:9px; background:#F4F4F5}
+.appshell .line{height:9px; border-radius:4px; background:#EDEDEF; margin:14px 0 8px; width:62%}
+.appshell .line.s{width:38%}
+
+/* ── controls ──────────────────────────────────────────────────────────── */
+.panel{flex:1 1 300px; min-width:0}
+.controls{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px}
+button{
+  font:inherit; font-size:13px; font-weight:600; letter-spacing:-.01em;
+  color:var(--fg); background:var(--panel);
+  border:1px solid var(--line); border-radius:9px;
+  padding:8px 13px; cursor:pointer;
+  transition:border-color .15s,background .15s,color .15s;
+}
+button:hover{border-color:var(--muted)}
+button:focus-visible{outline:2px solid var(--flame); outline-offset:2px}
+button[aria-pressed="true"]{
+  background:var(--flame-wash); border-color:var(--flame); color:var(--flame-text);
+}
+.note{
+  font-size:13px; color:var(--muted); margin:0 0 16px;
+  padding-left:13px; border-left:2px solid var(--line);
+}
+
+/* ── beats ─────────────────────────────────────────────────────────────── */
+.beats{list-style:none; margin:0; padding:0; display:grid; gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:10px; overflow:hidden}
+.beats li{display:grid; grid-template-columns:62px 1fr; gap:12px; padding:11px 14px; background:var(--panel); align-items:baseline}
+.beats b{font-family:var(--mono); font-size:11.5px; font-weight:500; color:var(--flame-text); font-variant-numeric:tabular-nums}
+.beats span{font-size:13.5px; color:var(--fg-soft)}
+
+/* ── filmstrip ─────────────────────────────────────────────────────────── */
+.strip{display:flex; gap:10px; overflow-x:auto; padding-block:4px 10px; margin-top:22px; scrollbar-width:thin}
+.cell{flex:none; width:122px}
+.mini-phone{
+  width:122px; height:216px; background:#FFFFFF;
+  border:1px solid var(--line); border-radius:15px;
+  display:grid; place-items:center; overflow:hidden; position:relative;
+}
+.mini-phone .lockup{font-size:25px}
+/* Each cell renders the same animation held still at its own moment, by running the
+   clock backwards: delay = (that layer's delay) − (this frame's time). No second
+   set of numbers to drift out of step with the live one. */
+.cell .lk-for{animation:fy-for var(--dur) var(--ease) calc(var(--d-for) - var(--t)) both paused}
+.cell .lk-ya {animation:fy-ya  var(--dur) var(--ease) calc(var(--d-ya)  - var(--t)) both paused}
+.cell .lk-seam b{animation:fy-seam var(--dur-seam) ease-out calc(var(--d-seam) - var(--t)) both paused}
+.cap{
+  font-family:var(--mono); font-size:10.5px; color:var(--muted);
+  text-align:center; margin-top:7px; font-variant-numeric:tabular-nums;
+}
+.cap em{display:block; font-family:var(--sans); font-style:normal; font-size:10.5px; color:var(--fg-soft); letter-spacing:-.005em; margin-top:1px}
+
+/* ── spec table ────────────────────────────────────────────────────────── */
+.tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:10px; margin-top:20px}
+table{border-collapse:collapse; width:100%; min-width:540px; font-size:13px}
+th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line-soft)}
+th{
+  font-family:var(--mono); font-size:10px; font-weight:500; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted); background:var(--sunk);
+}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600; white-space:nowrap}
+td code,.m{font-family:var(--mono); font-size:11.5px; color:var(--fg-soft); font-variant-numeric:tabular-nums}
+
+/* ── code ──────────────────────────────────────────────────────────────── */
+.codehead{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:20px; margin-bottom:8px}
+.codehead h3{margin:0; font-size:13.5px; font-weight:700; letter-spacing:-.01em}
+pre{
+  margin:0; background:var(--sunk); border:1px solid var(--line);
+  border-radius:10px; padding:16px; overflow-x:auto;
+  font-family:var(--mono); font-size:11.5px; line-height:1.65; color:var(--fg-soft);
+}
+pre b{color:var(--fg); font-weight:500}
+pre i{color:var(--muted); font-style:normal}
+
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(252px,1fr)); gap:12px; margin-top:20px}
+.card{background:var(--panel); border:1px solid var(--line); border-radius:11px; padding:16px}
+.card h3{margin:0 0 6px; font-size:14px; font-weight:700; letter-spacing:-.015em}
+.card p{margin:0; font-size:13px; color:var(--muted)}
+.card.flag{border-color:var(--flame); background:var(--flame-wash)}
+.card.flag h3{color:var(--flame-text)}
+.card.flag p{color:var(--fg-soft)}
+
+@media (prefers-reduced-motion:reduce){
+  .anim .lk-for,.anim .lk-ya,.anim .lk-seam b,
+  .anim.handoff .lockup,.anim.handoff .appshell{animation:none}
+  .anim .lk-seam b{opacity:0}
+  .anim.handoff .appshell{opacity:0}
+}
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">Motion spec · v1</p>
+  <h1>Splash sequence. <em>Two halves, one word.</em></h1>
+  <p class="lede">On a white ground, <strong>FOR</strong> and <strong>ya</strong> travel in from opposite edges and
+  meet on the baseline. A single flame hairline marks the join, then goes. Everything below is read from one
+  set of values, so the demo, the frames and the table can't drift apart.</p>
+
+  <section>
+    <div class="stage">
+      <div class="phone">
+        <div class="statusbar">
+          <span>9:41</span>
+          <span style="display:flex;align-items:center;gap:5px">
+            <span class="sig"><i></i><i></i><i></i><i></i></span>
+            <span class="batt"></span>
+          </span>
+        </div>
+        <div class="screen" id="screen">
+          <div class="appshell" aria-hidden="true">
+            <div class="bar">
+              <span class="lockup mini"><span class="lk-for">FOR</span><span class="lk-ya">ya</span></span>
+              <span class="dot"></span>
+            </div>
+            <div class="hero"></div>
+            <div class="line"></div><div class="line s"></div>
+            <div class="row"><span></span><span></span><span></span></div>
+          </div>
+          <span class="lockup" role="img" aria-label="FORYA">
+            <span class="lk-for" aria-hidden="true">FOR</span>
+            <span class="lk-seam" aria-hidden="true"><b></b></span>
+            <span class="lk-ya" aria-hidden="true">ya</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>The beats</h2>
+        <div class="controls">
+          <button id="replay" type="button">Replay</button>
+          <button id="slow" type="button" aria-pressed="false">Quarter speed</button>
+          <button id="loop" type="button" aria-pressed="true">Loop</button>
+          <button id="hand" type="button" aria-pressed="false">Show handoff</button>
+        </div>
+        <p class="note">Quarter speed is for reading the motion, not a second spec — the real
+        sequence runs at the durations in the table.</p>
+        <ol class="beats">
+          <li><b>0 ms</b><span>White. Nothing on screen. The ground is already painted by the native launch screen, so there is no flash.</span></li>
+          <li><b>60 ms</b><span>Both halves start together, blurred and transparent, 200&nbsp;px outside their resting positions.</span></li>
+          <li><b>60–620</b><span>They decelerate hard into place. <strong>FOR</strong> tightens from −0.01em to its true −0.06em as it lands, so it reads as compressing into the lockup rather than sliding under it.</span></li>
+          <li><b>520 ms</b><span>The flame hairline snaps up on the join, 60&nbsp;ms before the halves settle — it meets them rather than following them.</span></li>
+          <li><b>780 ms</b><span>Hairline gone. The wordmark holds, fully settled, for 400&nbsp;ms.</span></li>
+          <li><b>1180 ms</b><span>Handoff: the lockup falls back to 95.5% and fades as the first screen rises into place.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Frame by frame</p>
+    <h2>Held at six moments</h2>
+    <p class="lede">The same animation, paused. Useful for checking the arrival against a build without
+    recording the screen.</p>
+    <div class="strip" id="strip"></div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Values</p>
+    <h2>What to implement</h2>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>From</th><th>To</th><th>Start</th><th>Duration</th><th>Easing</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>FOR</td>
+            <td><code>translateX(−200px)</code><br><code>opacity 0 · blur 7px</code><br><code>tracking −0.01em</code></td>
+            <td><code>translateX(0)</code><br><code>opacity 1 · blur 0</code><br><code>tracking −0.06em</code></td>
+            <td class="m">60 ms</td><td class="m">560 ms</td><td class="m">expo-out</td>
+          </tr>
+          <tr>
+            <td>ya</td>
+            <td><code>translateX(+200px)</code><br><code>opacity 0 · blur 7px</code></td>
+            <td><code>translateX(0)</code><br><code>opacity 1 · blur 0</code></td>
+            <td class="m">60 ms</td><td class="m">560 ms</td><td class="m">expo-out</td>
+          </tr>
+          <tr>
+            <td>Seam</td>
+            <td><code>scaleY(0) · opacity 0</code></td>
+            <td><code>scaleY(1), then opacity 0</code></td>
+            <td class="m">520 ms</td><td class="m">260 ms</td><td class="m">ease-out</td>
+          </tr>
+          <tr>
+            <td>Handoff</td>
+            <td><code>scale(1) · opacity 1</code></td>
+            <td><code>scale(0.955) · opacity 0</code></td>
+            <td class="m">1180 ms</td><td class="m">420 ms</td><td class="m">ease-in</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top:14px">expo-out is <span class="m">cubic-bezier(0.16, 1, 0.3, 1)</span>.
+    Travel is 200&nbsp;px at 390&nbsp;pt width — scale it with the viewport, not with the device pixel ratio.
+    Wordmark cap height is 54&nbsp;px on a 390&nbsp;pt screen, optically centred, which sits a little above true centre.</p>
+
+    <div class="codehead">
+      <h3>Drop-in CSS</h3>
+      <button id="copy" type="button">Copy</button>
+    </div>
+<pre id="code"><i>/* FORYA splash — white ground, charcoal lockup, one flame seam. */</i>
+<b>.splash</b> { position:fixed; inset:0; background:#FFFFFF;
+           display:grid; place-items:center; z-index:9999 }
+<b>.lockup</b> { display:inline-flex; align-items:baseline; line-height:1;
+           font-size:54px; color:#18181B }
+<b>.lk-for</b> { font-family:'Bricolage Grotesque'; font-weight:800; letter-spacing:-.06em }
+<b>.lk-ya</b>  { font-family:'Instrument Serif'; font-style:italic; letter-spacing:-.02em;
+           padding-left:.02em }
+<b>.lk-seam</b> { position:relative; width:0; align-self:baseline }
+<b>.lk-seam b</b> { position:absolute; left:-1px; bottom:-.02em; width:2px; height:.74em;
+             background:#F05A1E; border-radius:1px; transform-origin:50% 100% }
+
+@keyframes <b>fy-for</b> {
+  from { transform:translate3d(-200px,0,0); opacity:0; filter:blur(7px); letter-spacing:-.01em }
+  to   { transform:translate3d(0,0,0); opacity:1; filter:blur(0); letter-spacing:-.06em } }
+@keyframes <b>fy-ya</b> {
+  from { transform:translate3d(200px,0,0); opacity:0; filter:blur(7px) }
+  to   { transform:translate3d(0,0,0); opacity:1; filter:blur(0) } }
+@keyframes <b>fy-seam</b> {
+  0% { transform:scaleY(0); opacity:0 } 34% { transform:scaleY(1); opacity:1 }
+  100% { transform:scaleY(1); opacity:0 } }
+@keyframes <b>fy-lift</b> {
+  from { transform:scale(1); opacity:1 } to { transform:scale(.955); opacity:0 } }
+
+<b>.lk-for</b>   { animation:fy-for 560ms cubic-bezier(.16,1,.3,1) 60ms both }
+<b>.lk-ya</b>    { animation:fy-ya  560ms cubic-bezier(.16,1,.3,1) 60ms both }
+<b>.lk-seam b</b> { animation:fy-seam 260ms ease-out 520ms both }
+<b>.splash.out .lockup</b> { animation:fy-lift 420ms cubic-bezier(.4,0,1,1) both }
+
+<i>/* Anyone who asks for less motion gets the settled lockup and a plain fade. */</i>
+@media (prefers-reduced-motion:reduce) {
+  <b>.lk-for</b>,<b>.lk-ya</b>,<b>.lk-seam b</b> { animation:none }
+  <b>.lk-seam b</b> { opacity:0 }
+  <b>.splash</b> { animation:fy-fade 200ms both } }</pre>
+  </section>
+
+  <section>
+    <p class="eyebrow">Before you build it</p>
+    <h2>Three things that will bite</h2>
+    <div class="cards">
+      <div class="card flag">
+        <h3>iOS launch screens cannot animate</h3>
+        <p>Apple requires a static storyboard. Make it plain white with nothing on it, then play this
+        sequence as the first thing the web layer renders. The handoff is seamless because both grounds
+        are the same white.</p>
+      </div>
+      <div class="card">
+        <h3>Turn off the auto-hide</h3>
+        <p>The config currently has <span class="m">launchAutoHide: true</span> and
+        <span class="m">launchShowDuration: 1200</span>, which hides the native splash on a timer and
+        will cut across this. Set auto-hide to false and call <span class="m">SplashScreen.hide()</span>
+        yourself once the fonts have loaded.</p>
+      </div>
+      <div class="card">
+        <h3>Wait for the fonts</h3>
+        <p>Both faces must be resident before the first frame, or <strong>FOR</strong> and
+        <strong>ya</strong> animate in a fallback and snap width when the real ones arrive. Await
+        <span class="m">document.fonts.ready</span>, then start — and self-host the two faces so there
+        is no network on first launch.</p>
+      </div>
+    </div>
+
+    <div class="codehead"><h3>Start order</h3></div>
+<pre><i>// Nothing is shown until both faces are resident — otherwise the lockup
+// animates in a fallback and jumps width mid-flight.</i>
+import { SplashScreen } from '@capacitor/splash-screen';
+
+await document.fonts.load('800 54px "Bricolage Grotesque"');
+await document.fonts.load('italic 400 54px "Instrument Serif"');
+await document.fonts.ready;
+
+splashEl.classList.add('play');     <i>// native ground is still underneath</i>
+await SplashScreen.hide();          <i>// hand over mid-animation; no flash</i>
+
+setTimeout(() =&gt; splashEl.classList.add('out'), 1180);
+setTimeout(() =&gt; splashEl.remove(), 1600);</pre>
+    <p class="note" style="margin-top:14px">Also set <span class="m">launchShowDuration</span> low rather
+    than to zero — it is the floor before your own code runs, and on a cold start on a slow device it is
+    the only thing covering the gap.</p>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var screen = document.getElementById('screen');
+  var timer = null;
+  var state = { slow:false, loop:true, hand:false };
+
+  function play(){
+    clearTimeout(timer);
+    screen.classList.remove('anim');
+    void screen.offsetWidth;                      // force a restart
+    screen.classList.toggle('handoff', state.hand);
+    screen.classList.add('anim');
+    if (state.loop){
+      var span = state.hand ? 1600 : 1180;
+      var scale = state.slow ? 4 : 1;
+      timer = setTimeout(play, span * scale + 900);
+    }
+  }
+
+  function rate(){
+    // Scaling the tokens scales the demo and the filmstrip together.
+    var f = state.slow ? 4 : 1;
+    var r = document.documentElement.style;
+    r.setProperty('--dur',     560 * f + 'ms');
+    r.setProperty('--dur-seam',260 * f + 'ms');
+    r.setProperty('--dur-hand',420 * f + 'ms');
+    r.setProperty('--d-for',    60 * f + 'ms');
+    r.setProperty('--d-ya',     60 * f + 'ms');
+    r.setProperty('--d-seam',  520 * f + 'ms');
+    r.setProperty('--d-hand', 1180 * f + 'ms');
+  }
+
+  function toggle(id, key, after){
+    var b = document.getElementById(id);
+    b.addEventListener('click', function(){
+      state[key] = !state[key];
+      b.setAttribute('aria-pressed', String(state[key]));
+      if (after) after();
+      play();
+    });
+  }
+
+  document.getElementById('replay').addEventListener('click', play);
+  toggle('slow','slow', rate);
+  toggle('loop','loop');
+  toggle('hand','hand');
+
+  // Filmstrip: same markup, same keyframes, each cell frozen at its own moment.
+  var FRAMES = [
+    [0,   'ground'],
+    [180, 'entering'],
+    [330, 'closing'],
+    [480, 'nearly set'],
+    [560, 'seam'],
+    [820, 'settled']
+  ];
+  var strip = document.getElementById('strip');
+  strip.innerHTML = FRAMES.map(function(f){
+    return '<div class="cell" style="--t:' + f[0] + 'ms">' +
+             '<div class="mini-phone"><span class="lockup">' +
+               '<span class="lk-for">FOR</span>' +
+               '<span class="lk-seam"><b></b></span>' +
+               '<span class="lk-ya">ya</span>' +
+             '</span></div>' +
+             '<div class="cap">' + f[0] + ' ms<em>' + f[1] + '</em></div>' +
+           '</div>';
+  }).join('');
+
+  // Copy, with a fallback for viewers whose frame refuses the clipboard.
+  var copy = document.getElementById('copy');
+  copy.addEventListener('click', function(){
+    var text = document.getElementById('code').innerText;
+    function ok(){ copy.textContent = 'Copied'; setTimeout(function(){ copy.textContent = 'Copy'; }, 1600); }
+    try {
+      navigator.clipboard.writeText(text).then(ok, select);
+    } catch (e) { select(); }
+    function select(){
+      var r = document.createRange();
+      r.selectNodeContents(document.getElementById('code'));
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      copy.textContent = 'Press ⌘C';
+      setTimeout(function(){ copy.textContent = 'Copy'; }, 2200);
+    }
+  });
+
+  rate();
+  play();
+})();
+</script>
