@@ -112,22 +112,58 @@ The mobile screens live in Figma:
 | **Key** | `xT3Ef9h6Gz6F3srBfroeHq` |
 | **Palette** | White ground, charcoal ink, one flame accent — matches `frontend/src/styles.css` |
 
-Twelve screens, 390×844 (iPhone 14/15 logical size):
+The file has two pages. **Build from V4.**
 
-| # | Screen | What it establishes |
+| Page | Contents |
+|---|---|
+| `V4 · Client feedback — 30 screens` | Current. Rebuilt from the 1 Nov developer handoff. |
+| `V1 · Original 12 screens` | Superseded. Kept for comparison only. |
+
+### V4 — 30 screens, 390×844
+
+Thirty screens covering the 121 states in the handoff. Detail, error and variant states are
+folded into the screen they belong to rather than drawn separately; the chapter IDs each screen
+answers are printed on the screen itself in 10.5 pt.
+
+| # | Screen | Handoff |
 |---|---|---|
-| 01 | Onboarding | The premise — a moment, not a feed |
-| 02 | Today | Home: next moment, weather, suggested look |
-| 03 | Moment detail | A single moment with its look and pieces |
-| 04 | Discover | Browsing the catalogue |
-| 05 | Capture — frame | Camera UI, dark, for photographing a garment |
-| 06 | Capture — lift | The cut-out running **on device** |
-| 07 | Capture — name | Naming, category, cost-per-wear setup |
-| 08 | Wardrobe | Owned pieces as cut-outs, with cost-per-wear |
-| 09 | Stylist | Plain-English request, answer with reasoning |
-| 10 | Price check | 90-day price history |
-| 11 | Look canvas | Slot-guided composition with a piece tray |
-| 12 | Packing | A trip, day by day |
+| 01–05 | Launch · Welcome · Create account · Sign in · Verify email | A01–A04, B02–B03 |
+| 06–07 | Usual style · Brand grids | A05–A07 |
+| 08–10 | Home: new account · look planned · ready to wear | A08, A18, A19 |
+| 11–13 | Create a Moment · Agenda & calendar · Moment detail | A09, H01–H02, H05–H06 |
+| 14–18 | Choose an outfit · Canvas · Arrange · Swap · Look Check | A11–A12, D03–D11 |
+| 19–20 | Shop by retailer · Confirm received | A15, F06, A17 |
+| 21–23 | Discover · Brand page · Product detail | E01–E05, F01–F04 |
+| 24–27 | Wardrobe empty · Prepare image · Confirm piece · Collections | G01–G14 |
+| 28–30 | Ask FORya · Profile hub · Offline | I01–I03, J01, K01–K03 |
+
+### Rules the V4 screens encode
+
+These came from the handoff and are not negotiable in build:
+
+- **No budget anywhere.** No cap field, no `/£150` denominator, no "within your budget" score, no
+  over-budget dialog. Cost is information. (17 separate instructions in the document.)
+- **No guest route.** Nothing in the catalogue is visible before authentication.
+- **Ownership is explicit.** A piece is owned only once the user confirms it physically arrived.
+  Selecting a brand during onboarding never creates a garment.
+- **Four tabs, fixed:** Home, Moments, Discover, Wardrobe. Profile is a plain icon-and-label
+  action at Home's top right — 44 pt target, no coloured ring, no enclosing pill.
+- **One Moment form.** What, Where, Date, Time, optional dress code on a single screen, date and
+  time side by side, primary action fixed above the safe area.
+- **New-piece totals stay fixed** above the safe area while retailer lists scroll.
+- **Three wardrobe collections stay distinct:** My clothes, Saved items, Saved looks.
+
+Typography follows the handoff's contract exactly: Bricolage Grotesque 700/600/500/400 with
+Instrument Serif Italic for the editorial word; headline 30/32.4, section 22/25.3, body 17/24,
+primary action 17/21.25, field label 15/21, metadata 14/19.6 and 13/18.2, bottom tab labels
+11/13.2, brand captions 10.5.
+
+**Canonical fixtures** (use these exact numbers in build): new account — Oxford shirt £24,
+chinos £45, loafers £65 = **£134**, 0 owned / 3 new. After the footwear swap to Oxford shoes
+£860 = **£929**. Retailers split M&S (shirt, chinos) and Mytheresa (shoes).
+
+Brand tiles carry sized artwork slots, not logos — official brand files are a client asset and
+are dropped into the named slots.
 
 **This link belongs in version control, not a chat.** The previous Figma file's URL was lost
 because it lived only in a conversation. If the file moves or is replaced, change it here.
