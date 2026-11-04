@@ -127,7 +127,7 @@ answers are printed on the screen itself in 10.5 pt.
 
 | # | Screen | Handoff |
 |---|---|---|
-| 01–05 | Launch · Welcome · Create account · Sign in · Verify email | A01–A04, B02–B03 |
+| 01–05 | Launch · Welcome · Create account · Sign in · Enter the 6-digit code | A01–A04, B02–B03 |
 | 06–07 | Usual style · Brand grids | A05–A07 |
 | 08–10 | Home: new account · look planned · ready to wear | A08, A18, A19 |
 | 11–13 | Create a Moment · Agenda & calendar · Moment detail | A09, H01–H02, H05–H06 |
@@ -136,6 +136,17 @@ answers are printed on the screen itself in 10.5 pt.
 | 21–23 | Discover · Brand page · Product detail | E01–E05, F01–F04 |
 | 24–27 | Wardrobe empty · Prepare image · Confirm piece · Collections | G01–G14 |
 | 28–30 | Ask FORya · Profile hub · Offline | I01–I03, J01, K01–K03 |
+
+### Verification is a code, not a link
+
+Screen 05 is a six-digit OTP rather than the magic link the handoff assumed (A04). This is a
+deliberate departure and it removes work rather than adding it: the link-expiry states the
+handoff drew separately (B07, and B14 for password reset) collapse into the one screen, because
+expiry and resend cooldown are both visible on it while the user is still looking at it.
+
+For build: `textContentType = .oneTimeCode` on iOS and `autocomplete="one-time-code"` on web,
+so the keyboard offers the code straight from the message. A pasted six-digit string must fill
+the whole field at once, not one box at a time — the most common thing to get wrong here.
 
 ### Rules the V4 screens encode
 
