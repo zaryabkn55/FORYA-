@@ -1,0 +1,165 @@
+FORya · INSTAGRAM STARTER PACK — SETUP
+==============================================
+
+Open 00-profile-preview.png first: it's how the account reads once all of this is in place.
+
+
+1. ACCOUNT
+----------
+Account type   Professional → Business (gives you the category, insights and a contact button).
+Username       Check availability in this order: forya, forya.app, foryaapp, getforya.
+Name           FORya | Outfit planner
+               The name field is searchable, so the words after the bar help people find you.
+Category       App page
+Website        forya.onrender.com   (swap it the day there's a custom domain)
+Contact        Add an email button with your partnerships or hello address.
+Profile photo  01-profile/profile-picture.png  — the app icon, so it matches the home screen.
+               profile-picture-light.png is the alternative; on a white profile it has no edge,
+               which is why it isn't the first choice.
+
+2. BIO — Instagram allows 150 characters
+----------------------------------------
+
+[A — recommended]  125 characters
+Plan what you’ll wear, before you wear it.
+Outfits built around your Moments, the weather and your own wardrobe.
+Plan yours ↓
+
+[B — shorter]  88 characters
+You’ve got plans. We’ve got the look.
+Your wardrobe, the weather, one complete outfit.
+↓
+
+[C — before launch (only if you run an early-access list)]  70 characters
+Plan what you’ll wear, before you wear it.
+Coming soon.
+Early access ↓
+
+
+3. HIGHLIGHTS — upload the cover, then type the title exactly as below
+----------------------------------------------------------------------
+  highlight-01-start-here.png   title: Start here  holds: the launch story, and posts 01 and 05 shared to story
+  highlight-02-moments.png   title: Moments     holds: real Moments as they happen
+  highlight-03-wardrobe.png   title: Wardrobe    holds: cut-out demos; post 02 shared to story
+  highlight-04-looks.png   title: Looks       holds: finished outfits
+  highlight-05-creators.png   title: Creators    holds: creator partnership content — keep their #ad labels visible
+  highlight-06-faq.png   title: FAQ         holds: your answers from the Ask us anything sticker
+
+
+4. LAUNCH GRID — post in this order, oldest first
+--------------------------------------------------
+Instagram shows the newest post top-left, so posting 01 → 09 builds this:
+
+      09 hero          08 flat-lay        07 cocktail hour
+      06 home screen   05 how it works    04 back to the office
+      03 gallery       02 cut-out         01 hello
+
+Post 05 is a carousel: upload all five 05-how-it-works files together, in number order.
+Once posts are live, pin 01 (hello) and 05 (how it works) so they stay at the top.
+
+
+── POST 01 · 01-hello.png
+Caption:
+Hello. We’re FORya.
+
+Tell us what you’ve got on, whether it’s a dinner, an interview or a wedding in a field in October, and we’ll plan the whole outfit around it: the date, the weather and what’s already in your wardrobe.
+
+We call those Moments. Plan yours: link in bio.
+Alt text (Advanced settings → Accessibility):
+The FORya wordmark in white and orange on charcoal, above the line: Plan what you’ll wear, before you wear it.
+
+── POST 02 · 02-cut-out-on-your-phone.png
+Caption:
+Photograph a piece once and it joins every look after it. The cut-out happens on your phone, and the photo isn’t uploaded.
+Alt text (Advanced settings → Accessibility):
+A phone lifting a camel jumper out of its background, with a note saying this runs on your phone and the photo is not uploaded.
+
+── POST 03 · 03-moment-gallery-saturday.png
+Caption:
+Gallery, Saturday. 12:00, 14° and bright. A red cardigan, a check skirt and loafers you can walk in all afternoon.
+Alt text (Advanced settings → Accessibility):
+A woman in sunglasses, a red cardigan and a check skirt walking past a stone building while looking at her phone.
+
+── POST 04 · 04-moment-back-to-the-office.png
+Caption:
+Back to the office. Monday, 8:40am, 9° and dry. A navy jacket, black trousers and boots that can handle the walk from the station.
+Alt text (Advanced settings → Accessibility):
+A woman in sunglasses, a navy jacket, black trousers and brown knee boots walking past a pale stone wall.
+
+── POST 05 · 05-how-it-works-1..5 (carousel, upload all five in order)
+Caption:
+How FORya works.
+
+01 Tell us the Moment: what it is, where and when.
+02 We check the weather and what you already own.
+03 You get the whole look. If a piece is missing, you’ll see what it costs and where to buy it.
+
+Swipe through →
+Alt text (Advanced settings → Accessibility):
+Slide 1: Three questions, one complete look. Slide 2: a form with dinner at Clos Maggiore, Covent Garden, Friday 14 November at 7:30pm, smart with no tie. Slide 3: 8 degrees and dry after dark, with a navy blazer, stone chinos and brown loafers from the wardrobe. Slide 4: the finished look, three pieces owned and a blue Oxford shirt to buy for £24. Slide 5: Plan your next Moment.
+
+── POST 06 · 06-next-moment-already-dressed.png
+Caption:
+Your next Moment, already dressed. Three pieces from your own wardrobe, one to pick up, and the rest of the week lined up behind it.
+Alt text (Advanced settings → Accessibility):
+A phone showing the FORya home screen: dinner at Clos Maggiore on Friday, ready to wear, with a navy blazer, blue Oxford shirt, stone chinos and brown loafers.
+
+── POST 07 · 07-moment-cocktail-hour.png
+Caption:
+Cocktail hour. Friday, 7:30pm, 11° and clear. Black, but make it interesting.
+Alt text (Advanced settings → Accessibility):
+A woman in a black tailored mini dress carrying a quilted black clutch along a stone pavement.
+
+── POST 08 · 08-the-look-before-you-leave.png
+Caption:
+The look, before you leave: a tuxedo blazer over a satin slip dress, a small cream bag and heeled boots. Planned around the Moment, not the feed.
+Alt text (Advanced settings → Accessibility):
+A flat-lay of a black tuxedo blazer, a champagne satin slip dress, a cream shoulder bag and black suede heeled boots.
+
+── POST 09 · 09-youve-got-plans.png
+Caption:
+You’ve got plans. We’ve got the look.
+
+FORya plans your outfit around the things in your diary. Link in bio.
+Alt text (Advanced settings → Accessibility):
+White type on charcoal reading: You’ve got plans. We’ve got the look.
+
+
+Hashtags: three to five, in the caption or the first comment. Skip them on 01 and 09.
+  #outfitplanning  #whattowear  #capsulewardrobe  #outfitinspo  #londonstyle
+
+
+5. STORIES — 04-stories/
+-------------------------
+Each template leaves clear space for the sticker that belongs there. Nothing is drawn in it,
+so nothing needs covering.
+  story-launch.png           add a Link sticker under 'Tap the link'
+  story-ask-us-anything.png  add a Questions sticker in the open middle
+  story-this-or-that.png     add a Poll sticker below 'Vote below' (Loafers / Chelsea boots)
+  story-countdown.png        add a Countdown sticker between the headline and the wordmark
+
+
+6. REEL COVER — 05-reel-cover/reel-cover.png
+--------------------------------------------
+An example for a Saturday reel. Each reel needs its own title: change it in build.cjs and
+run `node marketing/instagram/build.cjs` to regenerate the whole pack.
+
+
+7. SIZES AND SAFE ZONES (already built in)
+------------------------------------------
+  Profile        1080×1080, shown as a circle
+  Feed posts     1080×1350 (4:5). The profile grid crops to 3:4, losing about 34px each side;
+                 nothing that matters sits within 80px of either edge.
+  Stories/reels  1080×1920. Top 250px and bottom 340px kept clear for Instagram's own controls.
+  Highlights     1080×1920, shown as a circle from the centre.
+
+
+8. BEFORE YOU POST — one thing to check
+--------------------------------------
+The editorial photographs (posts 03, 04, 07 and the reel cover) come from the app's own image
+set, which says it was made for FORya with no third-party rights. But the same file describes
+them in two incompatible ways: once as generated images, once as a shoot with real models.
+  - If they were generated: add Instagram's AI label when posting, and never caption them as
+    customers or real people's outfits.
+  - If they were a real shoot: make sure the model releases cover social media and advertising.
+Either is fine. Just know which it is before they go out under the FORya name.
