@@ -1,11 +1,5 @@
 # FORya — context for the Style FORya stylist
 
-> For the developer: send this as system context on every Style FORya request, ahead of the
-> user's Moments, wardrobe and catalogue. It describes the product; each request supplies the facts.
-> This is context, not fine-tuning data — no model training is needed.
-
----
-
 ## What FORya is
 
 FORya is an outfit planner built around the things people are actually going to. You tell it
