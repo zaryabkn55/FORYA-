@@ -3,6 +3,16 @@ FORya · INSTAGRAM STARTER PACK — SETUP
 
 Open 00-profile-preview.png first: it's how the account reads once all of this is in place.
 
+VISUAL SYSTEM
+  Colour      Charcoal #1A1A1A on white #FFFFFF. Greys (#666666, #E3E3E3) only for secondary
+              text and hairlines. No accent colour.
+  Logo        FORya wordmark, one colour — charcoal on white (or white on a photo only if unavoidable).
+  Type        Bricolage Grotesque (headlines, body), Instrument Serif italic (the emphasis word),
+              Geist Mono caps (labels).
+  Layout      Every asset opens with the same masthead: label left, wordmark right, charcoal rule.
+              88px margins on posts, 96px on stories.
+  Imagery     Photographs and products in black and white. Keep future posts the same.
+
 
 1. ACCOUNT
 ----------
@@ -13,9 +23,7 @@ Name           FORya | Outfit planner
 Category       App page
 Website        forya.onrender.com   (swap it the day there's a custom domain)
 Contact        Add an email button with your partnerships or hello address.
-Profile photo  01-profile/profile-picture.png  — the app icon, so it matches the home screen.
-               profile-picture-light.png is the alternative; on a white profile it has no edge,
-               which is why it isn't the first choice.
+Profile photo  01-profile/profile-picture.png  — the charcoal wordmark on white.
 
 2. BIO — Instagram allows 150 characters
 ----------------------------------------
@@ -66,13 +74,13 @@ Tell us what you’ve got on, whether it’s a dinner, an interview or a wedding
 
 We call those Moments. Plan yours: link in bio.
 Alt text (Advanced settings → Accessibility):
-The FORya wordmark in white and orange on charcoal, above the line: Plan what you’ll wear, before you wear it.
+The FORya wordmark in charcoal on white, above the line: Plan what you’ll wear, before you wear it.
 
 ── POST 02 · 02-cut-out-on-your-phone.png
 Caption:
 Photograph a piece once and it joins every look after it. The cut-out happens on your phone, and the photo isn’t uploaded.
 Alt text (Advanced settings → Accessibility):
-A phone lifting a camel jumper out of its background, with a note saying this runs on your phone and the photo is not uploaded.
+A phone lifting a jumper out of its background, with a note saying this runs on your phone and the photo is not uploaded.
 
 ── POST 03 · 03-moment-gallery-saturday.png
 Caption:
@@ -122,7 +130,7 @@ You’ve got plans. We’ve got the look.
 
 FORya plans your outfit around the things in your diary. Link in bio.
 Alt text (Advanced settings → Accessibility):
-White type on charcoal reading: You’ve got plans. We’ve got the look.
+Charcoal type on white reading: You’ve got plans. We’ve got the look.
 
 
 Hashtags: three to five, in the caption or the first comment. Skip them on 01 and 09.
