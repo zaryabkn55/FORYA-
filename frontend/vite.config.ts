@@ -33,9 +33,11 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2}'],
+        // Email artwork and proposal pages are for inboxes, not the app: don't precache them.
+        globIgnores: ['email/**'],
         // The SPA serves every route from index.html, but /api must always hit the network.
         navigateFallback: '/index.html',
-        navigateFallbackDenylist: [/^\/api\//],
+        navigateFallbackDenylist: [/^\/api\//, /^\/email\//],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
         skipWaiting: true,
