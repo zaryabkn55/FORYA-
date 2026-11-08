@@ -191,6 +191,7 @@ const h = (a, b, size, br) => `<h1 style="margin:0;font-family:${F.sans};font-si
 const p = (t, x = '') => `<p style="margin:0 0 16px;font-family:${F.sans};font-size:16px;line-height:25px;color:${C.soft};${x}">${t}</p>`;
 const rule = (c = C.ink, w = 2) => `<tr><td style="padding:0 40px" class="px"><div style="border-top:${w}px solid ${c};font-size:0;line-height:0">&nbsp;</div></td></tr>`;
 const sp = n => `<tr><td style="height:${n}px;font-size:0;line-height:0">&nbsp;</td></tr>`;
+const L = require('./lineup.cjs')({ C, z, svg, F, eb, h, p, sp, rule });
 const SENDER = { name: 'Zaryab', title: 'Co-founder, FORya', email: 'zaryabthakur@decusatio.com' };
 const MAIL = `mailto:${SENDER.email}?subject=${encodeURIComponent('ZIMA × FORya')}`;
 const btn = (label, href) => `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" bgcolor="${C.ink}" style="border-radius:999px">
@@ -219,7 +220,7 @@ function email(src) {
 <style>body{margin:0;padding:0;width:100%!important;background:#fff}table{border-collapse:collapse}a{color:${C.ink}}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:no-preference){.rise{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}.d1{animation-delay:.15s}.d2{animation-delay:.3s}}
-@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.col{display:block!important;width:100%!important;padding:0 0 30px!important}.h1 h1{font-size:31px!important;line-height:34px!important}}</style>
+@media (max-width:620px){.t3{padding:0 4px 16px!important}.t4{padding:0 3px!important}.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.col{display:block!important;width:100%!important;padding:0 0 30px!important}.h1 h1{font-size:31px!important;line-height:34px!important}}</style>
 </head><body style="margin:0;padding:0;background:#fff">
 <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;color:#fff;opacity:0">We planned a Moment in Knightsbridge around your Pink Tweed coat. Here’s how ZIMA would look on FORya.&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF"><tr><td align="center" style="padding:24px 0">
@@ -242,7 +243,7 @@ ${sp(34)}
   ${p('Dear Kristin and Daniela,', `color:${C.ink}`)}
   ${p('I’m Zaryab, co-founder of FORya, an outfit planner built in London. Our users tell FORya about something they’re going to (a dinner in Mayfair, a wedding, afternoon tea), and it builds the whole look for that day, starting with the clothes they already own and the forecast for that place and hour.')}
   ${p('When a Moment turns cold and the wardrobe has nothing right to wear over the look, FORya suggests the piece that’s missing. Through the winter, that piece is almost always a coat. Pieces like your pink tweed with mink sleeves, or the light pink coat with the chinchilla collar, are exactly what we’d want our users to find there.')}
-  ${p('So we built a preview of how ZIMA would appear on FORya, using your current collection.')}
+  ${p('So we built a preview of how ZIMA would appear on FORya: twelve pieces from your current collection, a boutique page of your own, and the Moments your coats would be suggested for.')}
 </td></tr>
 ${sp(20)}${rule(C.line, 1)}${sp(30)}
 
@@ -259,18 +260,19 @@ ${sp(20)}${rule(C.line, 1)}${sp(30)}
         <div style="font-family:${F.sans};font-size:16px;line-height:21px;font-weight:700;color:${C.ink};margin:3px 0 3px">${t}</div>
         <div style="font-family:${F.sans};font-size:14px;line-height:20px;color:${C.peb}">${d}</div></td></tr>`).join('')}
   </table></td></tr></table></td></tr>
-<tr><td style="padding:4px 40px 0" class="px"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="border:1.5px solid ${C.ink};border-radius:999px">
-  <a href="https://forya.onrender.com/email/zima/view.html" style="display:inline-block;padding:13px 26px;font-family:${F.sans};font-size:15px;font-weight:600;color:${C.ink};text-decoration:none">Scroll through it in your browser &rarr;</a></td></tr></table></td></tr>
+<tr><td style="padding:4px 40px 0" class="px"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td>
+  <a href="https://forya.onrender.com/email/zima/view.html" style="display:inline-block;border:1.5px solid ${C.ink};border-radius:999px;padding:13px 26px;font-family:${F.sans};font-size:15px;font-weight:600;color:${C.ink};text-decoration:none">Scroll through it in your browser &rarr;</a></td></tr></table></td></tr>
 ${sp(30)}
 ${sp(8)}${rule(C.line, 1)}${sp(30)}
 
+${L.emailSections(src)}
 <tr><td style="padding:0 40px 8px" class="px">${eb('Why FORya for ZIMA')}</td></tr>
 <tr><td style="padding:0 40px 22px" class="px">${h('Made for the way', 'ZIMA already works.', 28)}</td></tr>
 <tr><td style="padding:0 40px" class="px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
   ${why(['Your coats, when they’re needed', 'FORya adds an outer layer when the forecast for a Moment calls for one. From November to March, that’s most looks.'])}
   ${why(['Built for limited editions', 'We only show what’s available. When a fabric runs out and a coat leaves your collection, it leaves FORya too.'])}
   ${why(['Your clients, your conversation', 'FORya never takes payment. Enquiries come to you by WhatsApp, DM or a showroom appointment, exactly as they do today.'])}
-  ${why(['Styled for London plans', 'Dinners in Mayfair, afternoon tea in Knightsbridge, winter weddings: the occasions ZIMA is made for.'])}
+  ${why(['A boutique, not a listing', 'Your campaign, collections, archive and fittings in one place, presented the way ZIMA presents itself.'])}
 </table></td></tr>
 ${sp(26)}
 
@@ -314,7 +316,7 @@ function view() {
     ['Your coats, when they’re needed', 'FORya adds an outer layer when the forecast for a Moment calls for one. From November to March, that’s most looks.'],
     ['Built for limited editions', 'We only show what’s available. When a fabric runs out and a coat leaves your collection, it leaves FORya too.'],
     ['Your clients, your conversation', 'Enquiries come to you by WhatsApp, DM or a showroom appointment, exactly as they do today.'],
-    ['Styled for London plans', 'Dinners in Mayfair, afternoon tea in Knightsbridge, winter weddings: the occasions ZIMA is made for.'],
+    ['A boutique, not a listing', 'Your campaign, collections, archive and fittings in one place, presented the way ZIMA presents itself.'],
   ];
   return `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -398,6 +400,7 @@ footer{border-top:2px solid var(--ink)}footer .wrap{padding:26px 28px 40px;displ
   .box{padding:26px}
   footer .wrap{flex-direction:column}
 }
+${L.viewCSS}
 @media (prefers-reduced-motion:reduce){
   .rv,.phone img,.hero h1 .ln>span{transition:none!important;transform:none!important}
   .rv{opacity:1}.heroimg img{transform:none!important}
@@ -417,7 +420,7 @@ footer{border-top:2px solid var(--ink)}footer .wrap{padding:26px 28px 40px;displ
   <p class="rv">Dear Kristin and Daniela,</p>
   <p class="rv">I’m Zaryab, co-founder of FORya, an outfit planner built in London. Our users tell FORya about something they’re going to (a dinner in Mayfair, a wedding, afternoon tea), and it builds the whole look for that day, starting with the clothes they already own and the forecast for that place and hour.</p>
   <p class="rv">When a Moment turns cold and the wardrobe has nothing right to wear over the look, FORya suggests the piece that’s missing. Through the winter, that piece is almost always a coat. Pieces like your pink tweed with mink sleeves, or the light pink coat with the chinchilla collar, are exactly what we’d want our users to find there.</p>
-  <p class="rv">So we built a preview of how ZIMA would appear on FORya. Scroll through it below.</p>
+  <p class="rv">So we built a preview of how ZIMA would appear on FORya: twelve pieces from your current collection, a boutique page of your own, and the Moments your coats would be suggested for. Scroll through it below.</p>
 </section>
 
 <section class="story wrap">
@@ -430,6 +433,8 @@ footer{border-top:2px solid var(--ink)}footer .wrap{padding:26px 28px 40px;displ
     <div>${steps.map(([n, k, t, d], i) => `<div class="step${i ? '' : ' on'}" data-i="${i}"><div class="eb">${n} · ${k}</div><h3>${t}</h3><p>${d}</p></div>`).join('')}</div>
   </div>
 </section>
+
+${L.viewHTML()}
 
 <section class="why wrap">
   <div class="rv"><div class="eb">Why FORya for ZIMA</div><h2>Made for the way <em>ZIMA already works.</em></h2></div>
@@ -459,6 +464,7 @@ footer{border-top:2px solid var(--ink)}footer .wrap{padding:26px 28px 40px;displ
   const set = i => { imgs.forEach((m, k) => m.classList.toggle('on', k === i)); dots.forEach((d, k) => d.classList.toggle('on', k === i)); steps.forEach((s, k) => s.classList.toggle('on', k === i)); };
   const so = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) set(+e.target.dataset.i); }), { rootMargin: '-45% 0px -45% 0px' });
   steps.forEach(s => so.observe(s));
+${L.viewJS}
   // progress bar + slow zoom-out on the hero image
   const prog = document.getElementById('prog'), hero = document.getElementById('heroimg');
   let ticking = false;
@@ -506,6 +512,45 @@ footer{border-top:2px solid var(--ink)}footer .wrap{padding:26px 28px 40px;displ
     }
     fs.writeFileSync(`${FR}/sim.json`, JSON.stringify(SIM_FRAMES.map(f => f.ms))); await pg.close();
   }
+  // piece thumbnails (sold-out ones faded), then the long boutique page and its scrolling GIF
+  fs.mkdirSync(path.join(OUT, 'pieces'), { recursive: true });
+  require('child_process').execFileSync('python3', ['-c', `
+from PIL import Image, ImageEnhance
+import sys, json
+src, out, items = sys.argv[1], sys.argv[2], json.loads(sys.argv[3])
+for s, sold in items:
+    im = Image.open(f'{src}/{s}.jpg').convert('RGB'); w, h = im.size; tw = int(h * 6 / 7)
+    if tw <= w: im = im.crop(((w - tw) // 2, 0, (w - tw) // 2 + tw, h))
+    else: th = int(w * 7 / 6); im = im.crop((0, 0, w, th))
+    im = im.resize((360, 420), Image.LANCZOS)
+    if sold:
+        im = ImageEnhance.Color(im).enhance(0.15); im = Image.blend(im, Image.new('RGB', im.size, 'white'), 0.28)
+    im.save(f'{out}/{s}.jpg', quality=84, optimize=True, progressive=True)
+`, SRC, path.join(OUT, 'pieces'), JSON.stringify([...L.PIECES.map(x => [x[0], 0]), ...L.ARCHIVE.map(x => [x[0], 1])])]);
+  let BH;
+  {
+    const pg = await b.newPage({ viewport: { width: 390, height: 800 }, deviceScaleFactor: 2 });
+    fs.writeFileSync(tmp, page(`<div id="bq">${L.boutique()}</div>`)); await pg.goto('file://' + tmp, { waitUntil: 'load' }); await pg.evaluate(() => document.fonts.ready);
+    BH = await pg.evaluate(() => document.getElementById('bq').offsetHeight);
+    await pg.setViewportSize({ width: 390, height: BH });
+    await pg.screenshot({ path: path.join(OUT, 'boutique-long.jpg'), type: 'jpeg', quality: 84, clip: { x: 0, y: 0, width: 390, height: BH } });
+    await pg.close();
+  }
+  {
+    const max = BH - 780, ms = [];
+    const pg = await b.newPage({ viewport: { width: 414, height: 804 }, deviceScaleFactor: 300 / 414 });
+    fs.writeFileSync(tmp, page(`<div style="position:relative;width:414px;height:804px;background:#fff"><div class="phone"><div id="bqs" style="position:absolute;left:0;top:0">${L.boutique()}</div><div class="isl"></div></div></div>`));
+    await pg.goto('file://' + tmp, { waitUntil: 'load' }); await pg.evaluate(() => document.fonts.ready);
+    const stops = [0, 0.27, 0.52, 0.78, 1].map(f => Math.round(f * max)); let n = 0;
+    const shot = async (y, d) => { await pg.evaluate(v => { document.getElementById('bqs').style.top = -v + 'px'; }, y); await pg.screenshot({ path: `${FR}/bq-${String(n++).padStart(3, '0')}.png` }); ms.push(d); };
+    for (let i = 0; i < stops.length; i++) {
+      await shot(stops[i], i ? 1500 : 1900);
+      const to = i < stops.length - 1 ? stops[i + 1] : 0, k = i < stops.length - 1 ? 6 : 8;
+      for (let j = 1; j < k; j++) await shot(stops[i] + (to - stops[i]) * ease(j / k), 70);
+    }
+    fs.writeFileSync(`${FR}/bq.json`, JSON.stringify(ms)); await pg.close();
+  }
+  console.log(require('child_process').execFileSync('python3', [path.join(__dirname, 'gif.py'), FR, 'bq', path.join(OUT, 'boutique.gif'), '160']).toString().trim());
   for (const n of ['hero', 'sim']) console.log(require('child_process').execFileSync('python3', [path.join(__dirname, 'gif.py'), FR, n, path.join(OUT, n + '.gif'), n === 'sim' ? '160' : '255']).toString().trim());
   fs.rmSync(FR, { recursive: true, force: true });
   fs.writeFileSync(path.join(OUT, 'view.html'), view());
