@@ -1,0 +1,157 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZIMA Atelier × FORya</title><meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Instrument+Serif:ital@1&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1A1A1A;--soft:#3A3A3A;--peb:#666666;--line:#E3E3E3;--well:#F4F4F4}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#fff;color:var(--ink);font-family:'Bricolage Grotesque',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.01em}
+.eb{font-family:'Geist Mono',Menlo,monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--peb)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+/* bar + progress */
+.bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.bar .wrap{display:flex;justify-content:space-between;align-items:center;height:64px;border-bottom:2px solid var(--ink)}
+.bar img{height:26px;display:block}
+.prog{position:absolute;left:0;bottom:-2px;height:2px;background:var(--ink);width:100%;transform-origin:0 50%;transform:scaleX(0)}
+.prog-track{position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--line)}
+/* hero */
+.hero{padding-top:72px;padding-bottom:40px}
+.hero h1{font-size:clamp(40px,7vw,92px);line-height:.98;letter-spacing:-.045em;font-weight:700;max-width:13ch}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln>span{display:inline-block;transform:translateY(105%);transition:transform 1.1s cubic-bezier(.2,.7,.1,1)}
+.loaded .hero h1 .ln>span{transform:none}
+.loaded .hero h1 .ln:nth-child(2)>span{transition-delay:.12s}
+.lede{font-size:clamp(18px,2vw,22px);line-height:1.5;color:var(--peb);max-width:46ch;margin-top:26px}
+.heroimg{margin-top:48px;border-radius:20px;overflow:hidden;background:var(--well)}
+.heroimg img{display:block;width:100%;transform:scale(var(--s,1.08));transition:transform .1s linear;will-change:transform}
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.1,1)}
+.rv.in{opacity:1;transform:none}
+/* letter */
+.letter{max-width:736px;margin:0 auto;padding:90px 28px 40px}
+.letter p{font-size:19px;line-height:1.65;color:var(--soft);margin-bottom:20px}
+.letter p:first-child{color:var(--ink)}
+/* story */
+.story{padding-top:40px;padding-bottom:60px}
+.story .head{max-width:680px;margin:0 auto 20px}
+h2{font-size:clamp(30px,4vw,48px);line-height:1.04;letter-spacing:-.035em;font-weight:700;margin-top:10px}
+.scrolly{display:grid;grid-template-columns:minmax(260px,400px) 1fr;gap:72px;align-items:start}
+.stick{position:sticky;top:96px;height:calc(100vh - 120px);display:flex;align-items:center;justify-content:center}
+.phone{position:relative;width:min(100%,360px);aspect-ratio:414/804}
+.phone img{position:absolute;inset:0;width:100%;height:100%;opacity:0;transform:scale(.985) translateY(10px);transition:opacity .6s ease,transform .8s cubic-bezier(.2,.7,.1,1)}
+.phone img.on{opacity:1;transform:none}
+.dots{position:absolute;right:-26px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .3s,transform .3s}
+.dots i.on{background:var(--ink);transform:scale(1.3)}
+.step{min-height:82vh;display:flex;flex-direction:column;justify-content:center;padding:40px 0;border-top:1px solid var(--line);opacity:.25;transition:opacity .5s}
+.step:first-child{border-top:0}
+.step.on{opacity:1}
+.step h3{font-size:clamp(28px,3.4vw,44px);line-height:1.05;letter-spacing:-.035em;font-weight:700;margin:12px 0 18px}
+.step p{font-size:18px;line-height:1.6;color:var(--soft);max-width:44ch}
+/* why */
+.why{padding-top:100px;padding-bottom:40px;border-top:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px;margin-top:40px}
+.cell{padding:28px 0;border-top:1px solid var(--line)}
+.cell b{display:block;font-size:21px;letter-spacing:-.02em;margin-bottom:8px}
+.cell span{font-size:17px;line-height:1.55;color:var(--peb)}
+/* box + close */
+.box{border:2px solid var(--ink);border-radius:22px;padding:40px;margin:60px 0}
+.box ol{list-style:none;counter-reset:n;margin-top:18px}
+.box li{counter-increment:n;display:flex;gap:22px;padding:18px 0;border-top:1px solid var(--line);font-size:18px;line-height:1.5}
+.box li::before{content:counter(n,decimal-leading-zero);font-family:'Geist Mono',monospace;font-size:13px;color:var(--peb);padding-top:4px}
+.close{max-width:736px;margin:0 auto;padding:20px 28px 100px}
+.close p{font-size:20px;line-height:1.6;color:var(--soft)}
+.cta{display:inline-flex;align-items:center;gap:12px;margin-top:30px;background:var(--ink);color:#fff;text-decoration:none;font-weight:600;font-size:17px;padding:18px 32px;border-radius:999px;transition:transform .25s}
+.cta:hover{transform:translateY(-2px)}
+.sig{margin-top:40px;font-size:17px;line-height:1.5}.sig span{color:var(--peb);font-size:15px}
+footer{border-top:2px solid var(--ink)}footer .wrap{padding:26px 28px 40px;display:flex;justify-content:space-between;gap:24px;font-size:13px;line-height:1.6;color:#8A8A8A}
+@media (max-width:820px){
+  .scrolly{grid-template-columns:1fr;gap:0}
+  .stick{top:64px;height:auto;padding:16px 0;background:#fff;z-index:5}
+  .phone{width:min(38vw,170px)}
+  .bar .eb{font-size:10px;letter-spacing:.14em}
+  .wrap{padding:0 22px}
+  .dots{right:-18px}
+  .step{min-height:60vh;padding:28px 0}
+  .grid{grid-template-columns:1fr}
+  .box{padding:26px}
+  footer .wrap{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){
+  .rv,.phone img,.hero h1 .ln>span{transition:none!important;transform:none!important}
+  .rv{opacity:1}.heroimg img{transform:none!important}
+}
+</style></head><body>
+<div class="bar"><div class="wrap" style="position:relative"><span class="eb">Prepared for ZIMA Atelier</span><img src="../logo.png" alt="FORya"><div class="prog-track"></div><div class="prog" id="prog"></div></div></div>
+
+<main>
+<section class="hero wrap">
+  <div class="eb rv">A proposal from FORya</div>
+  <h1 style="margin-top:22px"><span class="ln"><span>When the forecast turns cold,</span></span><span class="ln"><span><em>we’d like the coat to be ZIMA.</em></span></span></h1>
+  <p class="lede rv">A short preview of ZIMA Atelier on FORya, built from the pieces in your current collection.</p>
+  <div class="heroimg rv"><img id="heroimg" src="hero.png" alt="A FORya Moment: afternoon tea at The Berkeley, Saturday 29 November at 3pm, 6° and clear, completed by ZIMA Atelier’s Pink Tweed Swarovski Crystal Coat."></div>
+</section>
+
+<section class="letter">
+  <p class="rv">Dear Kristin and Daniela,</p>
+  <p class="rv">I’m Zaryab, co-founder of FORya, an outfit planner built in London. Our users tell FORya about something they’re going to (a dinner in Mayfair, a wedding, afternoon tea), and it builds the whole look for that day, starting with the clothes they already own and the forecast for that place and hour.</p>
+  <p class="rv">When a Moment turns cold and the wardrobe has nothing right to wear over the look, FORya suggests the piece that’s missing. Through the winter, that piece is almost always a coat. Pieces like your pink tweed with mink sleeves, or the light pink coat with the chinchilla collar, are exactly what we’d want our users to find there.</p>
+  <p class="rv">So we built a preview of how ZIMA would appear on FORya. Scroll through it below.</p>
+</section>
+
+<section class="story wrap">
+  <div class="head rv"><div class="eb">The simulation</div><h2>ZIMA on FORya, <em>in four screens.</em></h2></div>
+  <div class="scrolly">
+    <div class="stick"><div class="phone" id="phone">
+      <img src="screen-1-moment.png" alt="Screen 1" class="on"><img src="screen-2-look.png" alt="Screen 2"><img src="screen-3-piece.png" alt="Screen 3"><img src="screen-4-brand.png" alt="Screen 4">
+      <div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+    </div></div>
+    <div><div class="step on" data-i="0"><div class="eb">01 · The Moment</div><h3>A plan, <em>not a feed.</em></h3><p>She tells FORya about afternoon tea at The Berkeley on Saturday at 3pm. FORya reads the forecast for Knightsbridge at that hour (6°, clear) and her dress code, then explains why the look needs a coat before suggesting one.</p></div><div class="step" data-i="1"><div class="eb">02 · The look</div><h3>Styled with <em>what she owns.</em></h3><p>Her own slip dress, boots and bag come first. Your Pink Tweed Swarovski Crystal Coat completes the look, and Look Check confirms it’s smart, complete and warm enough.</p></div><div class="step" data-i="2"><div class="eb">03 · The piece</div><h3>Sold <em>your way.</em></h3><p>Shown as a limited edition, price on request, exactly as you sell today. Enquiries go straight to your WhatsApp or to a fitting at Bagista in Knightsbridge. FORya never takes payment.</p></div><div class="step" data-i="3"><div class="eb">04 · Your page</div><h3>A home for <em>the collection.</em></h3><p>ZIMA gets its own page in Brands with your story, your categories and only the pieces still available. When a fabric runs out, the coat leaves FORya too.</p></div></div>
+  </div>
+</section>
+
+<section class="why wrap">
+  <div class="rv"><div class="eb">Why FORya for ZIMA</div><h2>Made for the way <em>ZIMA already works.</em></h2></div>
+  <div class="grid"><div class="cell rv" style="transition-delay:0s"><b>Your coats, when they’re needed</b><span>FORya adds an outer layer when the forecast for a Moment calls for one. From November to March, that’s most looks.</span></div><div class="cell rv" style="transition-delay:0.12s"><b>Built for limited editions</b><span>We only show what’s available. When a fabric runs out and a coat leaves your collection, it leaves FORya too.</span></div><div class="cell rv" style="transition-delay:0s"><b>Your clients, your conversation</b><span>Enquiries come to you by WhatsApp, DM or a showroom appointment, exactly as they do today.</span></div><div class="cell rv" style="transition-delay:0.12s"><b>Styled for London plans</b><span>Dinners in Mayfair, afternoon tea in Knightsbridge, winter weddings: the occasions ZIMA is made for.</span></div></div>
+  <div class="box rv"><div class="eb">What it takes</div><h2 style="font-size:30px">Very little from you.</h2>
+    <ol><li>We work from your website and the photographs you already have.</li><li>We build your ZIMA page, and you approve every listing before it goes live.</li><li>Tell us when a piece sells out, and we take it down the same day.</li></ol></div>
+</section>
+
+<section class="close">
+  <p class="rv">We’re inviting a small group of London brands to join us as launch partners, and we’d love ZIMA to be one of them. Could we show you the app properly, on a call or at the showroom, whichever suits you?</p>
+  <a class="cta rv" href="mailto:zaryabthakur@decusatio.com?subject=ZIMA%20%C3%97%20FORya">Let’s arrange a time <span aria-hidden="true">→</span></a>
+  <div class="sig rv">With best wishes,<br><b>Zaryab</b><br><span>Co-founder, FORya · <a href="mailto:zaryabthakur@decusatio.com" style="color:inherit">zaryabthakur@decusatio.com</a></span></div>
+</section>
+</main>
+
+<footer><div class="wrap"><img src="../logo.png" alt="FORya" style="height:22px"><span style="max-width:640px">FORya is built by Decusatio Ltd, London. This page is a design preview made for ZIMA Atelier using images from zimaatelier.com; nothing here has been published in the app.</span></div></footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  requestAnimationFrame(() => document.documentElement.classList.add('loaded'));
+  // reveal on scroll
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+  // sticky phone: the step in the middle of the screen picks the screen
+  const imgs = [...document.querySelectorAll('#phone img')], dots = [...document.querySelectorAll('.dots i')], steps = [...document.querySelectorAll('.step')];
+  const set = i => { imgs.forEach((m, k) => m.classList.toggle('on', k === i)); dots.forEach((d, k) => d.classList.toggle('on', k === i)); steps.forEach((s, k) => s.classList.toggle('on', k === i)); };
+  const so = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) set(+e.target.dataset.i); }), { rootMargin: '-45% 0px -45% 0px' });
+  steps.forEach(s => so.observe(s));
+  // progress bar + slow zoom-out on the hero image
+  const prog = document.getElementById('prog'), hero = document.getElementById('heroimg');
+  let ticking = false;
+  const tick = () => {
+    const h = document.documentElement, max = h.scrollHeight - innerHeight;
+    prog.style.transform = 'scaleX(' + (max > 0 ? scrollY / max : 0) + ')';
+    if (!reduce && hero) { const r = hero.getBoundingClientRect(), t = Math.min(1, Math.max(0, 1 - r.top / innerHeight)); hero.style.setProperty('--s', (1.08 - 0.08 * t).toFixed(4)); }
+    ticking = false;
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }, { passive: true });
+  tick();
+})();
+</script>
+</body></html>
